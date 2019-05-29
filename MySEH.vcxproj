@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CF495447-69BD-4BF7-8C7A-D223F556D364}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>MySEH</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <FixedBaseAddress>true</FixedBaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <BaseAddress>0x15000000</BaseAddress>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ConstrException.cpp" />
+    <ClCompile Include="Access.cpp" />
+    <ClCompile Include="Construction.cpp" />
+    <ClCompile Include="CopyConstructor.cpp" />
+    <ClCompile Include="DestrException.cpp" />
+    <ClCompile Include="DestrException2.cpp" />
+    <ClCompile Include="Example2.cpp" />
+    <ClCompile Include="Example3.cpp" />
+    <ClCompile Include="Example4.cpp" />
+    <ClCompile Include="Example5.cpp" />
+    <ClCompile Include="Example6.cpp" />
+    <ClCompile Include="Example7.cpp" />
+    <ClCompile Include="Example8.cpp" />
+    <ClCompile Include="ExampleOne.cpp" />
+    <ClCompile Include="LinkExample.cpp" />
+    <ClCompile Include="SEHExamplesStart.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ClassCopy.h" />
+    <ClInclude Include="ConstrException.h" />
+    <ClInclude Include="Access.h" />
+    <ClInclude Include="Construction.h" />
+    <ClInclude Include="CopyConstructor.h" />
+    <ClInclude Include="DefaultConstructor.h" />
+    <ClInclude Include="DestrException.h" />
+    <ClInclude Include="DestrException2.h" />
+    <ClInclude Include="Example2.h" />
+    <ClInclude Include="Example3.h" />
+    <ClInclude Include="Example4.h" />
+    <ClInclude Include="Example5.h" />
+    <ClInclude Include="Example6.h" />
+    <ClInclude Include="Example7.h" />
+    <ClInclude Include="Example8.h" />
+    <ClInclude Include="ExampleOne.h" />
+    <ClInclude Include="FromStandard.h" />
+    <ClInclude Include="IsVirtual.h" />
+    <ClInclude Include="LambdaPointer.h" />
+    <ClInclude Include="LinkExample.h" />
+    <ClInclude Include="NoexceptExample.h" />
+    <ClInclude Include="OperatorInheriting.h" />
+    <ClInclude Include="Overload.h" />
+    <ClInclude Include="PointerFromReference.h" />
+    <ClInclude Include="ProtectedConstructor.h" />
+    <ClInclude Include="typedefMas.h" />
+    <ClInclude Include="UniquePtr.h" />
+    <ClInclude Include="VirtualDestructor.h" />
+    <ClInclude Include="VirtualInheriting.h" />
+    <ClInclude Include="VurtualFuncInCtr.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
