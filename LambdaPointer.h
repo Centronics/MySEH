@@ -316,5 +316,3 @@ inline void LambdaPointerDemo()
 	NegateAll(v);
 	ExceptionDemo();
 }
-
-//  ак устроен конструктор перемещени€ по умолчанию?

@@ -122,6 +122,7 @@
     <ClInclude Include="IsVirtual.h" />
     <ClInclude Include="LambdaPointer.h" />
     <ClInclude Include="LinkExample.h" />
+    <ClInclude Include="MoveConstructor.h" />
     <ClInclude Include="NoexceptExample.h" />
     <ClInclude Include="OperatorInheriting.h" />
     <ClInclude Include="Overload.h" />
