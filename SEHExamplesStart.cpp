@@ -24,10 +24,12 @@
 #include "PointerFromReference.h"
 #include "DefaultConstructor.h"*/
 //#include "LambdaPointer.h"
-#include "MoveConstructor.h"
+//#include "MoveConstructor.h"
+//#include "NoexceptExample.h"
+#include "ProtectedConstructor.h" 
 
 int main()
 {
-	MoveConstructorDemo();
+	ProtectedConstructorDemo();
 	return 0;
 }
