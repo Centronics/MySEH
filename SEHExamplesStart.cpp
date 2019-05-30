@@ -23,10 +23,11 @@
 #include "UniquePtr.h"
 #include "PointerFromReference.h"
 #include "DefaultConstructor.h"*/
-#include "LambdaPointer.h"
+//#include "LambdaPointer.h"
+#include "MoveConstructor.h"
 
 int main()
 {
-	LambdaPointerDemo();
+	MoveConstructorDemo();
 	return 0;
 }
