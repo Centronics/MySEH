@@ -136,6 +136,24 @@ public:
 			return 5;
 		};
 
+		int x = 4;
+		// ReSharper disable once CppDeclaratorNeverUsed
+		auto yp = [&r = x, // r - ссылка на x. В [] нельзя указывать типы. Можно делать переменное число аргументов: [=](auto&& ... ts).
+			x = x + 1 // захват x по значению (отдельно от r).
+		]()->int {
+			r += 2;
+			return x + 2;
+		}();  // Обновляет ::x до 6, и инициализирует yp 7-кой.
+
+		const auto vglambda = [](auto printer) {
+			return [=](auto&& ... ts) {   // OK: ts - это упакованные параметры функции
+				printer(std::forward<decltype(ts)>(ts)...);
+			};
+		};
+		const auto p = vglambda([](auto v1, auto v2, auto v3, auto v4)
+		{ std::cout << v1 << v2 << v3 << typeid(v4).name(); });
+		p(1, 'a', 3.14, 5.25f);  // OK: выводит 1a3.14
+
 		MyFuncZ();
 		MyFunc();
 

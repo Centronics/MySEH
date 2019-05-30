@@ -23,14 +23,15 @@
 #include "UniquePtr.h"
 #include "PointerFromReference.h"
 #include "DefaultConstructor.h"*/
-//#include "LambdaPointer.h"
+#include "LambdaPointer.h"
 //#include "MoveConstructor.h"
 //#include "NoexceptExample.h"
 //#include "ProtectedConstructor.h" 
-#include "OperatorInheriting.h"
+//#include "OperatorInheriting.h"
+//#include "ForEach.h"
 
 int main()
 {
-	OperatorInherDemo();
+	LambdaPointerDemo();
 	return 0;
 }

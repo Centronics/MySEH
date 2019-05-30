@@ -118,6 +118,7 @@
     <ClInclude Include="Example7.h" />
     <ClInclude Include="Example8.h" />
     <ClInclude Include="ExampleOne.h" />
+    <ClInclude Include="ForEach.h" />
     <ClInclude Include="FromStandard.h" />
     <ClInclude Include="IsVirtual.h" />
     <ClInclude Include="LambdaPointer.h" />
