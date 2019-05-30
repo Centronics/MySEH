@@ -26,10 +26,11 @@
 //#include "LambdaPointer.h"
 //#include "MoveConstructor.h"
 //#include "NoexceptExample.h"
-#include "ProtectedConstructor.h" 
+//#include "ProtectedConstructor.h" 
+#include "OperatorInheriting.h"
 
 int main()
 {
-	ProtectedConstructorDemo();
+	OperatorInherDemo();
 	return 0;
 }
