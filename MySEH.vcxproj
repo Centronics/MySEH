@@ -102,7 +102,9 @@
     <ClCompile Include="SEHExamplesStart.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Alignas.h" />
     <ClInclude Include="ClassCopy.h" />
+    <ClInclude Include="Compl.h" />
     <ClInclude Include="ConstrException.h" />
     <ClInclude Include="Access.h" />
     <ClInclude Include="Construction.h" />
@@ -123,12 +125,15 @@
     <ClInclude Include="IsVirtual.h" />
     <ClInclude Include="LambdaPointer.h" />
     <ClInclude Include="LinkExample.h" />
+    <ClInclude Include="MapDemo.h" />
     <ClInclude Include="MoveConstructor.h" />
     <ClInclude Include="NoexceptExample.h" />
     <ClInclude Include="OperatorInheriting.h" />
     <ClInclude Include="Overload.h" />
     <ClInclude Include="PointerFromReference.h" />
     <ClInclude Include="ProtectedConstructor.h" />
+    <ClInclude Include="Relatives.h" />
+    <ClInclude Include="Requires.h" />
     <ClInclude Include="typedefMas.h" />
     <ClInclude Include="UniquePtr.h" />
     <ClInclude Include="VirtualDestructor.h" />
