@@ -113,11 +113,13 @@ public:
 			_dbl = 19.0; // Значение _dbl не изменится. Будет 20.1. THIS можно захватить неявно, с помощью "=".
 		};
 
-		const auto m = [ptr = move(13)]()  // NOLINT(hicpp-move-const-arg, performance-move-const-arg)
+		const auto m = [ptr = move(13), k = 0]()  // NOLINT(hicpp-move-const-arg, performance-move-const-arg)
 		{
 			// use ptr
 			// ReSharper disable once CppDeclaratorNeverUsed
 			remove_reference<int>::type io = ptr;
+			// ReSharper disable once CppDeclaratorNeverUsed
+			int ik = k + 1; // k++; написать нельзя, т.к. нет mutable.
 		};
 
 		unique_ptr<LambdaTest> pNum(new LambdaTest());

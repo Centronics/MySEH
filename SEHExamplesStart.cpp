@@ -31,10 +31,15 @@
 //#include "ForEach.h"
 //#include "Alignas.h"
 //#include "Relatives.h"
-#include "MapDemo.h"
+//#include "MapDemo.h"
+//#include "Decltype.h"
+//////#include "Expression.h"
+//#include "FormatString.h"
+#include "Template.h"
 
 int main()
 {
-	MapDemo();
+	//TestExpression();
+	TstTemplateDemo();
 	return 0;
 }
