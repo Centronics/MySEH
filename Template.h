@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <functional>
+#include <algorithm>
 
 using namespace std;
 
@@ -133,6 +135,14 @@ public:
 	int o = 2;
 };
 
+class ClsMas
+{
+	int u;
+public:
+	ClsMas() = default; // Если {}, то u не инициализируется.
+	ClsMas(int) {}
+};
+
 inline void TstTemplateDemo()
 {
 	SD sd = { 47 };
@@ -151,6 +161,11 @@ inline void TstTemplateDemo()
 	// clls3 cl5; // Ошибка: конструктор по умолчанию удалён.
 	// clls3 cl4 = clls3(); // Нельзя так писать, если конструктор = delete.
 
+	ClsMas* clsma1 = new ClsMas[25];
+	ClsMas* clsmas = new ClsMas[25](); // Если консруктор по умолчанию = default, то инициализация будет.
+	int* a1 = new int[10]; // НЕТ инициализации.
+	int* a2 = new int[10](); // ВСЕ элементы будут инициализированы.
+
 	printf_s("PTS<int S::*>::IsPointer == %d PTS <int S::*>::IsPointerToDataMember == %d\n", PTS<int S::*>::IS_POINTER, PTS<int S::*>::IS_POINTER_TO_DATA_MEMBER);
 
 	auto a = TstTemplate<double>::Func();
@@ -166,6 +181,13 @@ inline void TstTemplateDemo()
 	cout << "i = " << i << " (" << typeid(i).name() << ")" << endl;
 	cout << "p = " << p << " (" << typeid(p).name() << ")" << endl;
 	cout << "c = " << c << " (" << typeid(c).name() << ")" << endl;
+
+	std::vector<std::string> v = { "a1", "ab1", "abc1" }; // Выведется 2, 3, 4.
+	std::vector<std::size_t> l;
+	transform(v.begin(), v.end(), std::back_inserter(l),
+		std::mem_fn(&std::string::size));
+	for (std::size_t n : l)
+		std::cout << n << ' ';
 }
 
 class A {
