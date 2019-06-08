@@ -70,6 +70,7 @@ public:
 
 	void VoidG()
 	{
+		byte bt = static_cast<byte>(50); // C++17. Требуется строгое преобразование.
 		double D::* ptr = &D::DB; // Член не должен быть статическим.
 		int G::* ptr1 = &G::PG; // Член не должен быть статическим.
 		double D::* ptr2 = &G::DB; // Член не должен быть статическим.
@@ -79,8 +80,77 @@ public:
 	}
 };
 
+class SD
+{
+public:
+	int IO;
+};
+
+class SD1
+{
+public:
+	int IO;
+	double HJ;
+};
+
+class SD3
+{
+public:
+	int OP;
+};
+
+class SD4 : public SD3
+{
+public:
+	double RT;
+};
+
+class cls
+{
+public:
+	int t, y;
+};
+
+class cls11
+{
+public:
+	cls11() :t(), y() {} // Подходит default.
+
+	int t, y;
+};
+
+class cls2
+{
+public:
+	cls2(int) {}
+	int o = 2;
+};
+
+class clls3
+{
+public:
+	clls3() = delete;
+	int o = 2;
+};
+
 inline void TstTemplateDemo()
 {
+	SD sd = { 47 };
+	SD1 sd1 = { 34,43.6 };
+	SD4 sd4 = { {3}, 5.5 };
+	SD4 sdg{}; // Будут инициализированы.
+	cls cl{}; // Будут инициализированы.
+	cls dl; // НЕ будут инициализированы. () нельзя писать. Размер класса становится равным единице.
+	cls dl1 = cls(); // Будут инициализированы.
+	//cls1 cls1(); // () нельзя писать. Размер класса становится равным единице.
+	cls11* pcls1 = new cls11; // Можно и (), можно и без. Инициализации не будет! Если конструктор = default. Если есть недефолтный конструктор, то всё будет работать как обычно.
+	cls11* pcls2 = new cls11(); // Можно и (), можно и без. Инициализация будет! Если конструктор = default. Если есть недефолтный конструктор, то всё будет работать как обычно.
+	cls2 cls22(8); // Работает ТОЛЬКО тогда, когда есть конструктор НЕ по умолчанию.
+	cls2 cls3 = cls2(9); // Работает.
+	clls3 cl3(); // ОК. Если так написать, то переменная видна не будет.
+	// clls3 cl5; // Ошибка: конструктор по умолчанию удалён.
+	// clls3 cl4 = clls3(); // Нельзя так писать, если конструктор = delete.
+
 	printf_s("PTS<int S::*>::IsPointer == %d PTS <int S::*>::IsPointerToDataMember == %d\n", PTS<int S::*>::IS_POINTER, PTS<int S::*>::IS_POINTER_TO_DATA_MEMBER);
 
 	auto a = TstTemplate<double>::Func();
