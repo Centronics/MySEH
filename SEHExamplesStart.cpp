@@ -22,24 +22,24 @@
 #include "ClassCopy.h"
 #include "UniquePtr.h"
 #include "PointerFromReference.h"
-#include "DefaultConstructor.h"*/
-//#include "LambdaPointer.h"
-//#include "MoveConstructor.h"
-//#include "NoexceptExample.h"
-//#include "ProtectedConstructor.h" 
-//#include "OperatorInheriting.h"
-//#include "ForEach.h"
-//#include "Alignas.h"
-//#include "Relatives.h"
-//#include "MapDemo.h"
-//#include "Decltype.h"
-//////#include "Expression.h"
-//#include "FormatString.h"
-#include "Template.h"
+#include "DefaultConstructor.h"
+#include "LambdaPointer.h"
+#include "MoveConstructor.h"
+#include "NoexceptExample.h"
+#include "ProtectedConstructor.h" 
+#include "OperatorInheriting.h"
+#include "ForEach.h"
+#include "Alignas.h"
+#include "Relatives.h"
+#include "MapDemo.h"
+#include "Decltype.h"
+#include "Expression.h"
+#include "FormatString.h"
+#include "Template.h"*/
+#include "StaticIntTest.h"
 
 int main()
 {
-	//TestExpression();
-	TstTemplateDemo();
+	StaticIntDemo();
 	return 0;
 }

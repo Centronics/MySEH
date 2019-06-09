@@ -13,6 +13,7 @@ inline void FormatStringDemo()
 
 	assert(s == "I have heard it works only if you believe in it");
 
+	// Безопаснее для старых стандартов.
 	s = "but I have heard it works even if you don't believe in it";
 	s.replace(0, 4, ""); // Если что-то не найдено, то может быть исключение.
 	s.replace(s.find("even"), 4, "only");

@@ -84,6 +84,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CallMeDemo1.cpp" />
+    <ClCompile Include="CallMeDemo2.cpp" />
     <ClCompile Include="ConstrException.cpp" />
     <ClCompile Include="Access.cpp" />
     <ClCompile Include="Construction.cpp" />
@@ -126,6 +128,8 @@
     <ClInclude Include="ForEach.h" />
     <ClInclude Include="FormatString.h" />
     <ClInclude Include="FromStandard.h" />
+    <ClInclude Include="FuncDef.h" />
+    <ClInclude Include="FuncDefTest.h" />
     <ClInclude Include="IsVirtual.h" />
     <ClInclude Include="LambdaPointer.h" />
     <ClInclude Include="LinkExample.h" />
@@ -138,6 +142,7 @@
     <ClInclude Include="ProtectedConstructor.h" />
     <ClInclude Include="Relatives.h" />
     <ClInclude Include="Requires.h" />
+    <ClInclude Include="StaticIntTest.h" />
     <ClInclude Include="Template.h" />
     <ClInclude Include="typedefMas.h" />
     <ClInclude Include="UniquePtr.h" />

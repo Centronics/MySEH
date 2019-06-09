@@ -116,7 +116,7 @@ public:
 class cls11
 {
 public:
-	cls11() :t(), y() {} // Подходит default.
+	cls11() : t(), y() {} // Подходит default.
 
 	int t, y;
 };
@@ -143,8 +143,27 @@ public:
 	ClsMas(int) {}
 };
 
+template<auto Constant> void ConstantPrinter() // C++17
+{
+	if constexpr (is_convertible_v<decltype(Constant), size_t>) // Компилируется статически.
+		cout << "Constant provided: " << Constant << "\n";
+	else
+		cout << "Null pointer provided.\n";
+}
+
+template<auto Constant> void ConstantPrinter1()
+{
+	if (is_convertible_v<decltype(Constant), int>) // Компилируется как обычно.
+		cout << "Constant provided: " << Constant << "\n";
+	else
+		cout << "Null pointer provided.\n";
+}
+
 inline void TstTemplateDemo()
 {
+	ConstantPrinter<1>();
+	ConstantPrinter1<2>();
+
 	SD sd = { 47 };
 	SD1 sd1 = { 34,43.6 };
 	SD4 sd4 = { {3}, 5.5 };
@@ -182,12 +201,12 @@ inline void TstTemplateDemo()
 	cout << "p = " << p << " (" << typeid(p).name() << ")" << endl;
 	cout << "c = " << c << " (" << typeid(c).name() << ")" << endl;
 
-	std::vector<std::string> v = { "a1", "ab1", "abc1" }; // Выведется 2, 3, 4.
-	std::vector<std::size_t> l;
-	transform(v.begin(), v.end(), std::back_inserter(l),
-		std::mem_fn(&std::string::size));
-	for (std::size_t n : l)
-		std::cout << n << ' ';
+	vector<string> v = { "a1", "ab1", "abc1" }; // Выведется 2, 3, 4.
+	vector<size_t> l;
+	transform(v.begin(), v.end(), back_inserter(l),
+		mem_fn(&string::size));
+	for (size_t n : l)
+		cout << n << ' ';
 }
 
 class A {
