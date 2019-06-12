@@ -28,18 +28,25 @@
 #include "NoexceptExample.h"
 #include "ProtectedConstructor.h" 
 #include "OperatorInheriting.h"
-#include "ForEach.h"
-#include "Alignas.h"
-#include "Relatives.h"
+#include "ForEach.h"*/
+//#include "Alignas.h"
+/*#include "Relatives.h"
 #include "MapDemo.h"
 #include "Decltype.h"
 #include "Expression.h"
 #include "FormatString.h"
-#include "Template.h"*/
+#include "Template.h"
 #include "StaticIntTest.h"
+#include "DynamicTemplate.h"*/
+
+#include "Expression.h"
 
 int main()
 {
-	StaticIntDemo();
+	//StaticIntDemo();
+	//TstTemplateDemo();
+	//DynamicTemplateDemo();
+	//AlignAsDemo();
+	TestExpression();
 	return 0;
 }

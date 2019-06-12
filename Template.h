@@ -135,6 +135,26 @@ public:
 	int o = 2;
 };
 
+class ClsConstr
+{
+public:
+	ClsConstr() = default;
+	double dbl;
+
+public:
+	int io = 0;
+};
+
+class ClsConstr1 : public ClsConstr
+{
+public:
+	ClsConstr1() = default;
+	double _dbl;
+
+public:
+	int _io = 0;
+};
+
 class ClsMas
 {
 	int u;
@@ -164,6 +184,13 @@ inline void TstTemplateDemo()
 	ConstantPrinter<1>();
 	ConstantPrinter1<2>();
 
+	ClsConstr constr = { }; // Инициализировать члены можно только в случае, если все они public и даже в том случае, если одному из них задано значение по умолчанию. Инициализация возможна в случае, если конструктор = default, но не определён. Вне зависимости от атрибута доступа конструктора.
+	ClsConstr con1{};
+	ClsConstr1 ctr; // Не инициализированы.
+	ClsConstr1 ctr1{}; // Инициализированы.
+	ClsConstr1 ctr2 = {}; // Инициализированы.
+	ClsConstr1 ctr3(); // Переменная не будет видна.
+
 	SD sd = { 47 };
 	SD1 sd1 = { 34,43.6 };
 	SD4 sd4 = { {3}, 5.5 };
@@ -176,7 +203,7 @@ inline void TstTemplateDemo()
 	cls11* pcls2 = new cls11(); // Можно и (), можно и без. Инициализация будет! Если конструктор = default. Если есть недефолтный конструктор, то всё будет работать как обычно.
 	cls2 cls22(8); // Работает ТОЛЬКО тогда, когда есть конструктор НЕ по умолчанию.
 	cls2 cls3 = cls2(9); // Работает.
-	clls3 cl3(); // ОК. Если так написать, то переменная видна не будет.
+	clls3 cl3(); // ОК. Если так написать, то переменная видна не будет вне зависимости от того, удалён конструктор или нет.
 	// clls3 cl5; // Ошибка: конструктор по умолчанию удалён.
 	// clls3 cl4 = clls3(); // Нельзя так писать, если конструктор = delete.
 

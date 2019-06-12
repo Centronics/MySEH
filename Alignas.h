@@ -1,6 +1,10 @@
 #pragma once
 #include <cstdint>
 #include <cstring>
+#include <memory>
+#include <iostream>
+
+using namespace std;
 
 struct alignas(16) Bar
 {
@@ -20,8 +24,21 @@ struct alignas(16) Bar1
 
 void AlignAsDemo1();
 
+class alignas(32) TstSomeClass
+{
+	char value;
+};
+
 inline void AlignAsDemo()
 {
+	const auto some = make_unique<TstSomeClass>();
+	const bool isProperlyAligned = reinterpret_cast<size_t>(some.get()) % 32 == 0;
+	cout << boolalpha << isProperlyAligned << "\n"; // True.
+
+	alignas(64) Bar1 af {};
+	const auto pointer = reinterpret_cast<size_t>(&af);
+	cout << "alignas(64) Bar1 af = " << (pointer % 64 == 0) << endl;
+
 	// ReSharper disable once CppDeclaratorNeverUsed
 	auto a = alignof(Bar); // output: 16
 	// ReSharper disable once CppDeclaratorNeverUsed

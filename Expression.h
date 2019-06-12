@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <vector>
+#include <map>
 
 using namespace std;
 
@@ -100,8 +102,56 @@ public:
 	Class() {	} // В этом случае ни в одном инициализаторе t НЕ будет инициализирована, т.к. она не инициализирована в конструкторе.
 };
 
+struct TetStr
+{
+	int a = 13;
+	double b = 20.2;
+};
+
+inline decltype(auto) Func()
+{
+	return 0.0L;
+}
+
+inline auto Funt() -> int
+{
+	return 0;
+}
+
+template<typename T, typename U> struct S
+{
+	T m_first;
+	U m_second;
+	S(T first, U second) : m_first(first), m_second(second) {}
+};
+
 inline void TestExpression()
 {
+	[[maybe_unused]] S s2 = { 10, 'c' };
+
+	const TetStr tst{};
+	auto[a, bc] = tst;
+	a = 12; // a и b не являются ссылками, а являются копиями.
+	bc = 19.9;
+
+	vector<int> vct = { 1, 2, 3 };
+
+	decltype(auto) r = vct.emplace_back(10);
+	r = 43;
+
+	for (const auto &i : vct)
+	{
+		std::cout << i << ' ';
+	}
+
+	map<int, char> myMap;
+
+	for (const auto &[key, value] : myMap)
+	{
+		std::cout << "key: " << key << ' ';
+		std::cout << "value: " << value << '\n';
+	}
+
 	Class c{}; // t не публичная, поэтому она не отобразится. t БУДЕТ инициализирована. Если есть конструктор по умолчанию, то он будет вызван, но при этом t не будет инициализирована, если она в нём не прописана.
 	Class d; // t НЕ БУДЕТ инициализирована. Если есть конструктор по умолчанию, то он будет вызван, но при этом t не будет инициализирована. Если его нет, то t НЕ будет инициализирована.
 	Class j = Class(); // t БУДЕТ инициализирована. При этом нельзя написать: Class j(). В этом случае результат неизвестен. Если есть конструктор по умолчанию, то он будет вызван, но при этом t не будет инициализирована.
