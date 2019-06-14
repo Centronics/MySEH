@@ -39,7 +39,8 @@
 #include "StaticIntTest.h"
 #include "DynamicTemplate.h"
 #include "Switch.h"
-#include "Any.h"*/
+#include "Any.h"
+#include "Union.h"*/
 
 int main()
 {

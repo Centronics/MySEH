@@ -147,6 +147,7 @@
     <ClInclude Include="Switch.h" />
     <ClInclude Include="Template.h" />
     <ClInclude Include="typedefMas.h" />
+    <ClInclude Include="Union.h" />
     <ClInclude Include="UniquePtr.h" />
     <ClInclude Include="Variant.h" />
     <ClInclude Include="VirtualDestructor.h" />

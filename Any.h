@@ -9,6 +9,9 @@ using namespace std;
 class AD
 {
 public:
+
+	AD(int) {}
+
 	AD& operator= (float f)
 	{
 		return *this;
@@ -100,7 +103,7 @@ inline void AnyDemo()
 		cout << e.what() << '\n';
 	}
 
-	AD ad;
+	AD ad(9);
 	a = ad;
 	cout << "Type = \"" << a.type().name() << "\"; AD = " << any_cast<AD>(a) << '\n';
 	[[maybe_unused]] auto tt = &ad; // AD*
