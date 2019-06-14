@@ -133,6 +133,7 @@ inline void TestExpression()
 	auto[a, bc] = tst;
 	a = 12; // a и b не €вл€ютс€ ссылками, а €вл€ютс€ копи€ми.
 	bc = 19.9;
+	// auto&[a1, bc1] = tst; // “ак нельз€ писать.
 
 	vector<int> vct = { 1, 2, 3 };
 

@@ -36,6 +36,20 @@ public:
 
 	void LambdaPointerDemo()
 	{
+		const auto pe = [](auto* a) -> auto& { return *a; };
+		float ty = 1.1f;
+		int uio = 9;
+		[[maybe_unused]] decltype(auto) rty = pe(&ty);
+		[[maybe_unused]] decltype(auto) ety = pe(&uio);
+		rty += 10.2f;
+		ety += 12;
+
+		int x = 4;
+		[[maybe_unused]] auto y = [&r = x, x = x + 1]()->int {
+			r += 2;       // x = 6.
+			return x + 2; // y = 7.
+		}();  // Обновляет ::x до 6, и инициализирует y 7-кой.
+
 		int a = 10, b = 20;
 		const auto f = [=]() -> void
 		{
@@ -138,7 +152,7 @@ public:
 			return 5;
 		};
 
-		int x = 4;
+		x = 4;
 		// ReSharper disable once CppDeclaratorNeverUsed
 		auto yp = [&r = x, // r - ссылка на x. В [] нельзя указывать типы. Можно делать переменное число аргументов: [=](auto&& ... ts).
 			x = x + 1 // захват x по значению (отдельно от r).

@@ -26,7 +26,7 @@
 #include "LambdaPointer.h"
 #include "MoveConstructor.h"
 #include "NoexceptExample.h"
-#include "ProtectedConstructor.h" 
+#include "ProtectedConstructor.h"
 #include "OperatorInheriting.h"
 #include "ForEach.h"*/
 //#include "Alignas.h"
@@ -37,16 +37,11 @@
 #include "FormatString.h"
 #include "Template.h"
 #include "StaticIntTest.h"
-#include "DynamicTemplate.h"*/
-
-#include "Expression.h"
+#include "DynamicTemplate.h"
+#include "Switch.h"
+#include "Any.h"*/
 
 int main()
 {
-	//StaticIntDemo();
-	//TstTemplateDemo();
-	//DynamicTemplateDemo();
-	//AlignAsDemo();
-	TestExpression();
 	return 0;
 }
