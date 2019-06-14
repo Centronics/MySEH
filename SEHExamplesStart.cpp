@@ -28,9 +28,9 @@
 #include "NoexceptExample.h"
 #include "ProtectedConstructor.h"
 #include "OperatorInheriting.h"
-#include "ForEach.h"*/
-//#include "Alignas.h"
-/*#include "Relatives.h"
+#include "ForEach.h"
+#include "Alignas.h"
+#include "Relatives.h"
 #include "MapDemo.h"
 #include "Decltype.h"
 #include "Expression.h"
