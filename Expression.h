@@ -5,6 +5,8 @@
 
 using namespace std;
 
+inline void ExprTest();
+
 class SomeClass
 {
 	//int _i; Даже если убрать эту переменную, то ничего не изменится в поведении класса при перемещении.
@@ -127,6 +129,8 @@ template<typename T, typename U> struct S
 
 inline void TestExpression()
 {
+	ExprTest();
+
 	[[maybe_unused]] S s2 = { 10, 'c' };
 
 	const TetStr tst{};
@@ -195,4 +199,19 @@ inline void TestExpression()
 	A(), b, 1; // Работает в обратном порядке.
 
 	i = 1'000; // 1000.
+}
+
+inline void ExprTest()
+{
+	int a[] = { 1, 2, 3, 4, 5, 6 };
+	const int a2 = 3[a - 1] - a[3] + (a - 1)[5]; // (3 - 4) + 5 = 4;
+	const int a3 = a[2] - a[3] + a[4]; // То же самое.
+	cout << "a2 = " << a2 << "; a3 = " << a3 << endl;
+
+	char str[6] = "emacs"; // str[5] написать нельзя.
+	cout << str << endl;
+
+	// Инициализируются ли массивы? Какой тип индекса массива?
+
+	// int a <::> = <%1, 2, 3, 4, 5, 6%>; // Не скомпилируется.
 }

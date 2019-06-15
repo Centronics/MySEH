@@ -131,6 +131,7 @@
     <ClInclude Include="FromStandard.h" />
     <ClInclude Include="FuncDef.h" />
     <ClInclude Include="FuncDefTest.h" />
+    <ClInclude Include="Initialization.h" />
     <ClInclude Include="IsVirtual.h" />
     <ClInclude Include="LambdaPointer.h" />
     <ClInclude Include="LinkExample.h" />
