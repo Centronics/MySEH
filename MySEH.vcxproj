@@ -126,6 +126,7 @@
     <ClInclude Include="Example7.h" />
     <ClInclude Include="Example8.h" />
     <ClInclude Include="ExampleOne.h" />
+    <ClInclude Include="Explicit.h" />
     <ClInclude Include="Expression.h" />
     <ClInclude Include="ForEach.h" />
     <ClInclude Include="FormatString.h" />

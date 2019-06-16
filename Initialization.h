@@ -71,11 +71,19 @@ public:
 	int t;
 };
 
+inline void FuncTry() noexcept try // МОЖНО ПИСАТЬ ТАК.
+{
+
+}
+catch (...) {}
+
 inline int Mas1[2]; // Нужен inline. Будет инициализирован.
 static int Mas2[2]; // Будет инициализирован.
 
 inline void MasInitDemo()
 {
+	FuncTry();
+
 	MasHolder masHolder = { Massive{}, 89 }; // У Massive вызовется конструктор без параметров.
 	Book book = { BN(23, 68.0f), 56 };
 	BN bn = { 45, 67.0f }; // Конструторы копирования и перемещения генерируются автоматически в случае отсутствия.
