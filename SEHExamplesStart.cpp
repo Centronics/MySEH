@@ -40,7 +40,8 @@
 #include "DynamicTemplate.h"
 #include "Switch.h"
 #include "Any.h"
-#include "Union.h"*/
+#include "Union.h"
+#include "Equal.h"*/
 
 int main()
 {

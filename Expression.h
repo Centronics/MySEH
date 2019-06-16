@@ -6,6 +6,7 @@
 using namespace std;
 
 inline void ExprTest();
+inline void ExprCycle();
 
 class SomeClass
 {
@@ -130,6 +131,7 @@ template<typename T, typename U> struct S
 inline void TestExpression()
 {
 	ExprTest();
+	ExprCycle();
 
 	[[maybe_unused]] S s2 = { 10, 'c' };
 
@@ -214,4 +216,31 @@ inline void ExprTest()
 	// Инициализируются ли массивы? Какой тип индекса массива?
 
 	// int a <::> = <%1, 2, 3, 4, 5, 6%>; // Не скомпилируется.
+}
+
+inline void ExprCycle()
+{
+	[[maybe_unused]] const auto t = 25u - 50; // Тип unsigned int.
+	[[maybe_unused]] const auto y = 25 - 50u; // Тип unsigned int.
+	[[maybe_unused]] const auto w = -25 - 50u; // Тип unsigned int.
+	[[maybe_unused]] const auto z = 25u - -50; // Тип unsigned int.
+	[[maybe_unused]] const auto p = 3.14 - 3.14f; // Тип double.
+	[[maybe_unused]] const auto d = 3.14f - 3.14; // Тип double.
+	[[maybe_unused]] const auto h = 0xFFFFFFFF; // 0xFFFFFFFF - unsigned int; 0xFF - signed int.
+	[[maybe_unused]] const auto j = 4294967295; // unsigned long.
+	[[maybe_unused]] const auto s = 429496729;  // int.
+	[[maybe_unused]] const auto a = 0xFFFFFFFFFFFFFFFF; // unsigned long long.
+	[[maybe_unused]] const auto q = 0xFFFFFFFF - 1; // unsigned int.
+	[[maybe_unused]] const auto v = 0xFFFFFFFF + 1; // unsigned int.
+	// [[maybe_unused]] const auto b = 0x10000000000000000; // Слишком большое значение.
+
+	const char ch = 1;
+	[[maybe_unused]] auto fg = ch * 2; // int. Даже, если написать (char).
+	[[maybe_unused]] auto fq = 2 * ch; // int. Даже, если написать (char).
+
+	/*unsigned char half_limit = 150; // ЗАВИСАНИЕ.
+	for (unsigned char i = 0; i < 2 * half_limit; ++i)
+	{
+		//что-то происходит;
+	}*/
 }

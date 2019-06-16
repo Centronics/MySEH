@@ -314,8 +314,23 @@ inline void ExceptionDemo()
 	}
 }
 
+constexpr double xscale = 10;
+constexpr double Scale(int i)
+{
+	return xscale * i;
+}
+
 inline void LambdaPointerDemo()
 {
+	const double ts = Scale(10); // const необязателен. Вычисляется во время выполнения.
+	constexpr int ctr = 1001; // Обычная константа.
+	const int ctor = 1002; // Обычная константа. Как и выше.
+	constexpr double tsx = Scale(10); // Если есть constexpr, то это значит, что вычисляется во время компиляции, если нет - во время выполнения. При этом, оно может вычислиться во время выполнения, но не смочь во время компиляции.
+	// tsx = 9; // Константа.
+	const int tr = 100; // Только так для вычисления во время компиляции.
+	constexpr double tsu = Scale(tr); // Только так для вычисления во время компиляции.
+	double ttt = Scale(ts); // constexpr нельзя.
+
 	int y = 32, z = 33;
 	float fl = 5.67f;
 	double dbl = 9.89;
@@ -329,9 +344,9 @@ inline void LambdaPointerDemo()
 	};
 
 	// ReSharper disable once CppDeclaratorNeverUsed
-	int yu = answer(); // 42
+	int yu = answer(); // 42. Не может быть вычислено во время компиляции.
 	// ReSharper disable once CppDeclaratorNeverUsed
-	int op = Increment(1); // Работает и с переменной.
+	int op = Increment(1); // Работает и с переменной. Не может быть вычислено во время компиляции.
 
 	vector<int> v(10);
 	vector<int>&& sv = move(v); // "v" перемещено не будет! sv и v будут указывать на один и тот же объект!! ТАК ЛУЧШЕ НЕ ПИСАТЬ!!!

@@ -117,6 +117,7 @@
     <ClInclude Include="DestrException.h" />
     <ClInclude Include="DestrException2.h" />
     <ClInclude Include="DynamicTemplate.h" />
+    <ClInclude Include="Equal.h" />
     <ClInclude Include="Example2.h" />
     <ClInclude Include="Example3.h" />
     <ClInclude Include="Example4.h" />
