@@ -41,7 +41,11 @@
 #include "Switch.h"
 #include "Any.h"
 #include "Union.h"
-#include "Equal.h"*/
+#include "Equal.h"
+#include "Narrow.h"
+#include "Inheriting.h"
+#include "KeepWindowOpen.h"
+#include "Initialization.h"*/
 
 int main()
 {
