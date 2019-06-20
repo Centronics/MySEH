@@ -47,7 +47,8 @@
 #include "KeepWindowOpen.h"
 #include "Initialization.h"
 #include "SobesErrors_31_07_2015.h"
-#include "Explicit.h"*/
+#include "Explicit.h"
+#include "VariableArguments.h"*/
 
 int main()
 {

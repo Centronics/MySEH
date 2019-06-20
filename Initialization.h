@@ -123,6 +123,17 @@ public:
 	}
 };
 
+class DoubleInit
+{
+	int i = 19;
+
+public:
+	DoubleInit() :i(20)
+	{
+
+	}
+};
+
 inline void MasInitDemo()
 {
 	FuncTry();
@@ -238,7 +249,7 @@ inline void MasInitDemo()
 	// int y1 = {x}; // Ошибка.
 	int y3 = x; // Так лучше не писать.
 	int y4 = static_cast<int>(x); // Так надо писать.
-	double tre[5] { 1.1, 2.2 }; // Будут инициализированы первые два заданными значениями, остальные нулями.
+	double tre[5]{ 1.1, 2.2 }; // Будут инициализированы первые два заданными значениями, остальные нулями.
 	double trr[5] = { 3.3, 4.4 }; // Будут инициализированы первые два заданными значениями, остальные нулями.
 
 	int df = 12.2;
@@ -247,4 +258,6 @@ inline void MasInitDemo()
 	char* a = "1";
 
 	IniSeq seq;
+
+	DoubleInit di; // i = 20
 }

@@ -156,6 +156,7 @@
     <ClInclude Include="typedefMas.h" />
     <ClInclude Include="Union.h" />
     <ClInclude Include="UniquePtr.h" />
+    <ClInclude Include="VariableArguments.h" />
     <ClInclude Include="Variant.h" />
     <ClInclude Include="VirtualDestructor.h" />
     <ClInclude Include="VirtualInheriting.h" />
