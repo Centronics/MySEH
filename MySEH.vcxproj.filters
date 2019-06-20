@@ -236,5 +236,8 @@
     <ClInclude Include="KeepWindowOpen.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="SobesErrors_31_07_2015.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

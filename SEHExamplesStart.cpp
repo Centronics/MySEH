@@ -44,11 +44,11 @@
 #include "Equal.h"
 #include "Narrow.h"
 #include "Inheriting.h"
-#include "KeepWindowOpen.h"*/
+#include "KeepWindowOpen.h"
 #include "Initialization.h"
+#include "SobesErrors_31_07_2015.h"*/
 
 int main()
 {
-	MasInitDemo();
 	return 0;
 }
