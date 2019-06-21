@@ -132,6 +132,11 @@ public:
 	{
 
 	}
+
+	DoubleInit(float) : i(30)
+	{
+
+	}
 };
 
 inline void MasInitDemo()
@@ -260,4 +265,6 @@ inline void MasInitDemo()
 	IniSeq seq;
 
 	DoubleInit di; // i = 20
+	DoubleInit da(3.14f); // i = 30. () писать нельзя. Получается так, что i никогда не будет равна 19.
+	DoubleInit dx{}; // i = 20
 }
