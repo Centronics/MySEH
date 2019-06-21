@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 
 class MassiveInit
 {
@@ -252,6 +253,9 @@ inline void MasInitDemo()
 	double x{ 2.7 };
 	// int y1 {x};   // Ошибка.
 	// int y1 = {x}; // Ошибка.
+	int iii(2.7); // Можно.
+	int iij(x); // Можно.
+
 	int y3 = x; // Так лучше не писать.
 	int y4 = static_cast<int>(x); // Так надо писать.
 	double tre[5]{ 1.1, 2.2 }; // Будут инициализированы первые два заданными значениями, остальные нулями.
@@ -267,4 +271,9 @@ inline void MasInitDemo()
 	DoubleInit di; // i = 20
 	DoubleInit da(3.14f); // i = 30. () писать нельзя. Получается так, что i никогда не будет равна 19.
 	DoubleInit dx{}; // i = 20
+	DoubleInit dn = {}; // i = 20
+	DoubleInit ds = da; // i = 30
+	DoubleInit dj(da); // i = 30
+	DoubleInit de = da; // i = 30
+	DoubleInit dm(std::move(da)); // i = 30
 }

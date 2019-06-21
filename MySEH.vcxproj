@@ -114,6 +114,7 @@
     <ClInclude Include="CopyConstructor.h" />
     <ClInclude Include="Decltype.h" />
     <ClInclude Include="DefaultConstructor.h" />
+    <ClInclude Include="Defaults.h" />
     <ClInclude Include="DestrException.h" />
     <ClInclude Include="DestrException2.h" />
     <ClInclude Include="DynamicTemplate.h" />
