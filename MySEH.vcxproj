@@ -142,6 +142,7 @@
     <ClInclude Include="MapDemo.h" />
     <ClInclude Include="MoveConstructor.h" />
     <ClInclude Include="Narrow.h" />
+    <ClInclude Include="PlacementNew.h" />
     <ClInclude Include="NoexceptExample.h" />
     <ClInclude Include="OperatorInheriting.h" />
     <ClInclude Include="Overload.h" />

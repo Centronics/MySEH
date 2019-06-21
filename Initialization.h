@@ -150,7 +150,7 @@ inline void MasInitDemo()
 	MassiveInit mc = MassiveInit(); // Результат тот же, что и вверху.
 	//MassiveInit ms(); // Пустой.
 
-	MassiveInit1 ms; // i = 90; Остальные неинициализированы.
+	MassiveInit1 ms; // i = 90; Остальные неинициализированы. В этом случае отдельно инициализировать ничего нельзя.
 	MassiveInit1 md{}; // ВСЕ инициализированы.
 	MassiveInit1 mw = MassiveInit1(); // ВСЕ инициализированы.
 

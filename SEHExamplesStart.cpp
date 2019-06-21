@@ -48,7 +48,8 @@
 #include "Initialization.h"
 #include "SobesErrors_31_07_2015.h"
 #include "Explicit.h"
-#include "VariableArguments.h"*/
+#include "VariableArguments.h"
+#include "PlacementNew.h"*/
 
 int main()
 {
