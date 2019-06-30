@@ -34,6 +34,11 @@ public:
 		int a = 67;
 	};
 
+	void CstMethod() const
+	{
+
+	}
+
 	void LambdaPointerDemo()
 	{
 		const auto pe = [](auto* a) -> auto& { return *a; };
@@ -122,9 +127,10 @@ public:
 			_dbl = 9.0; // Значение _dbl изменится, несмотря на то, что нет mutable.
 		};
 
-		auto df = [*this]() mutable // Если убрать this, то _dbl не получится изменить. Переменную _dbl можно изменить только так. Значение переменной класса изменится через лямбду. Фишка C++17. Если убрать mutable, изменять _dbl будет нельзя.
+		auto df = [*this]() mutable // Если убрать this, то _dbl не получится изменить. Переменную _dbl можно изменить только так. Значение переменной класса изменится через лямбду. Фишка C++17. Если убрать mutable, изменять _dbl будет нельзя. Mutable работает как const и действует на него. Если mutable не указан, можно вызывать только const-методы.
 		{
 			_dbl = 19.0; // Значение _dbl не изменится. Будет 20.1. THIS можно захватить неявно, с помощью "=".
+			CstMethod();
 		};
 
 		const auto m = [ptr = move(13), k = 0]()  // NOLINT(hicpp-move-const-arg, performance-move-const-arg)
