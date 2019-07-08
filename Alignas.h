@@ -26,7 +26,6 @@ void AlignAsDemo1();
 
 class alignas(32) TstSomeClass
 {
-	char value;
 };
 
 inline void AlignAsDemo()
@@ -45,6 +44,8 @@ inline void AlignAsDemo()
 	auto s1 = sizeof(Bar);
 	// ReSharper disable once CppDeclaratorNeverUsed
 	auto s2 = sizeof(Bar1);
+	// ReSharper disable once CppDeclaratorNeverUsed
+	auto s3 = sizeof(TstSomeClass);
 
 	uint8_t mas[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B /* Невостребованный байт. */, 0x0C, 0x0D };
 	Bar* pBar = reinterpret_cast<Bar*>(mas);

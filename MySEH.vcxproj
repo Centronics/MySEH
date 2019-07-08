@@ -106,6 +106,7 @@
   <ItemGroup>
     <ClInclude Include="Alignas.h" />
     <ClInclude Include="Any.h" />
+    <ClInclude Include="Casting.h" />
     <ClInclude Include="ClassCopy.h" />
     <ClInclude Include="Compl.h" />
     <ClInclude Include="ConstrException.h" />
