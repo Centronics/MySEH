@@ -51,9 +51,14 @@
 #include "VariableArguments.h"
 #include "PlacementNew.h"
 #include "Defaults.h"
-#include "Casting.h"*/
+#include "Casting.h"
+#include "map.h"
+#include "YandexSobesTest.h"*/
+
+#include "YandexSobesTest.h"
 
 int main()
 {
+	YandexTest();
 	return 0;
 }

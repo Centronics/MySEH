@@ -15,7 +15,7 @@ void DestrExptEx2()
 	a:
 	try
 	{
-		TestClass10 tcl10;
+		TestClass10 tcl10; // Второй деструктор будет вызван даже в случае исключения в первом.
 		TestClass11 tcl11;
 		goto a;
 	}

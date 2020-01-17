@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <utility>
+#include <functional>
 
 using namespace std;
 
@@ -132,4 +133,13 @@ inline void AnyDemo()
 	cout << *i << "\n";
 	a = 2.23; // double
 	[[maybe_unused]] float* pf = any_cast<float>(&a); // nullptr
+
+	int top = 10;
+	const auto fhh = [&top]
+	{
+		top++;
+	};
+
+	const std::function<void()> f_func = fhh;
+	f_func();
 }

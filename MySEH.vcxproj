@@ -56,7 +56,8 @@
       <ExceptionHandling>Async</ExceptionHandling>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <StringPooling>false</StringPooling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -80,6 +81,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <CallingConvention>VectorCall</CallingConvention>
+      <StringPooling>false</StringPooling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,6 +140,7 @@
     <ClInclude Include="ForEach.h" />
     <ClInclude Include="FormatString.h" />
     <ClInclude Include="FromStandard.h" />
+    <ClInclude Include="Fstream.h" />
     <ClInclude Include="FuncDef.h" />
     <ClInclude Include="FuncDefTest.h" />
     <ClInclude Include="Inheriting.h" />
@@ -146,6 +149,7 @@
     <ClInclude Include="KeepWindowOpen.h" />
     <ClInclude Include="LambdaPointer.h" />
     <ClInclude Include="LinkExample.h" />
+    <ClInclude Include="map.h" />
     <ClInclude Include="MapDemo.h" />
     <ClInclude Include="MoveConstructor.h" />
     <ClInclude Include="Narrow.h" />
@@ -169,6 +173,7 @@
     <ClInclude Include="VirtualDestructor.h" />
     <ClInclude Include="VirtualInheriting.h" />
     <ClInclude Include="VurtualFuncInCtr.h" />
+    <ClInclude Include="YandexSobesTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
