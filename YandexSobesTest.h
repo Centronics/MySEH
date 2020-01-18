@@ -3,6 +3,7 @@
 #include <chrono>
 #include <iostream>
 #include <deque>
+#include <optional>
 
 using namespace std;
 using namespace std::chrono;
@@ -89,6 +90,40 @@ inline bool VerifyResult(const vector<int>& v)
 class VectorGenerator
 {
 public:
+
+	class Iterator
+	{
+		VectorGenerator* _this = nullptr;
+
+	public:
+		Iterator() = default;
+
+		Iterator(VectorGenerator* cur) : _this(cur)
+		{
+			_this->Generate();
+			if (_this->_generated.empty())
+				_this = nullptr;
+		}
+
+		[[nodiscard]] vector<int>& operator*() const
+		{
+			return _this->_generated;
+		}
+
+		Iterator& operator++()
+		{
+			_this->Generate();
+			if (_this->_generated.empty())
+				_this = nullptr;
+			return *this;
+		}
+
+		[[nodiscard]] bool operator!=(const Iterator& iterator) const
+		{
+			return _this != iterator._this;
+		}
+	};
+
 	VectorGenerator(const size_t masLen, const int nonZeroValue) : _signVector(masLen), _masLen(masLen), _nonZeroValue(nonZeroValue)
 	{
 		if (nonZeroValue == 0)
@@ -145,7 +180,7 @@ private:
 		vector<int> t(_masLen);
 		vector<int>::size_type nonZeroCount = 0;
 		for (vector<int>::size_type k = 0; k < _signVector.size(); ++k)
-			if (_signVector[k])
+			if (_signVector[k] != 0)
 			{
 				t[k] = _nonZeroValue;
 				++nonZeroCount;
@@ -155,19 +190,16 @@ private:
 	}
 
 public:
-	[[nodiscard]] vector<int>* begin()
+	[[nodiscard]] Iterator begin()
 	{
-		Generate();
-		if (_generated.empty())
-			return nullptr;
-		return &_generated;
+		return Iterator(this);
 	}
 
 	// ReSharper disable once CppMemberFunctionMayBeStatic
 	// ReSharper disable once CppInconsistentNaming
-	[[nodiscard]] vector<int>* end()
+	[[nodiscard]] Iterator end()
 	{
-		return nullptr;
+		return Iterator();
 	}
 };
 
@@ -176,6 +208,7 @@ struct Result
 	tuple<bool, long long, vector<int>> NonOpt;
 	tuple<bool, long long, vector<int>> Sobes;
 	tuple<bool, long long, vector<int>> SobesOrig;
+	tuple<bool, long long, vector<int>> Bubble;
 };
 
 inline Result RemoveZero(vector<int>& v)
@@ -196,8 +229,10 @@ inline Result RemoveZero(vector<int>& v)
 	//	}
 	//}
 
-	auto solSobesOrig = [v]()mutable -> tuple<bool, long long, vector<int>>
+	auto solSobesOrig = [v]() mutable -> tuple<bool, long long, vector<int>>
 	{
+		if (v.size() < 2)
+			return tuple<bool, long long, vector<int>>();
 		const steady_clock::time_point start = steady_clock::now();
 		for (vector<int>::size_type k = v.size() - 1; k >= 0; --k) // ОРИГИНАЛ
 		{
@@ -222,20 +257,22 @@ inline Result RemoveZero(vector<int>& v)
 
 	auto solNonOpt = [v]() mutable -> tuple<bool, long long, vector<int>>
 	{
+		if (v.size() < 2)
+			return tuple<bool, long long, vector<int>>();
 		const steady_clock::time_point start = steady_clock::now();
 		vector<int>::size_type k = 0;
-		for (auto begin = v.begin(); begin != v.end(); ++begin, ++k)
+		for (auto begin = v.begin(); k < v.size(); ++k)
 			if (*begin == 0)
 			{
 				v.erase(begin); // После этого итератор недействителен.
-				--k;
 				begin = v.begin() + k;
+				--k;
 			}
 		const steady_clock::time_point end = steady_clock::now();
 		return make_tuple(true, duration_cast<microseconds>(end - start).count(), v);
 	};
 
-	auto solSobes = [v]() mutable->tuple<bool, long long, vector<int>>
+	auto solSobes = [v]() mutable -> tuple<bool, long long, vector<int>>
 	{
 		if (v.size() < 2)
 			return tuple<bool, long long, vector<int>>();
@@ -262,21 +299,53 @@ inline Result RemoveZero(vector<int>& v)
 		return make_tuple(true, duration_cast<microseconds>(end - start).count(), v);
 	};
 
+	auto solBubble = [v]() mutable -> tuple<bool, long long, vector<int>>
+	{
+		if (v.size() < 2)
+			return tuple<bool, long long, vector<int>>();
+
+		auto getValue = [&v](const vector<int>::size_type k) -> optional<int>
+		{
+			for (vector<int>::size_type j = k + 1; j < v.size(); ++j)
+				if (int& t = v[j]; t != 0)
+				{
+					const int r = t;
+					t = 0;
+					return r;
+				}
+			return nullopt;
+		};
+
+		const steady_clock::time_point start = steady_clock::now();
+		for (vector<int>::size_type k = 0; k < v.size(); ++k)
+		{
+			if (v[k] != 0)
+				continue;
+			if (optional<int> value = getValue(k))
+				v[k] = *value;
+			else
+				break;
+		}
+		const steady_clock::time_point end = steady_clock::now();
+		return make_tuple(true, duration_cast<microseconds>(end - start).count(), v);
+	};
+
 	auto nonOpt = solNonOpt();
 	auto sobes = solSobes();
 	auto sobesOrig = solSobesOrig();
+	auto bubble = solBubble();
 
 	const bool b = get<0>(nonOpt);
-	if (b != get<0>(sobes) || b != get<0>(sobesOrig))
+	if (b != get<0>(sobes) || b != get<0>(sobesOrig) || b != get<0>(bubble))
 		throw;
 
-	if (!VerifyResult(get<2>(nonOpt)) || !VerifyResult(get<2>(sobes)) || !VerifyResult(get<2>(sobesOrig)))
+	if (!VerifyResult(get<2>(nonOpt)) || !VerifyResult(get<2>(sobes)) || !VerifyResult(get<2>(sobesOrig)) || !VerifyResult(get<2>(bubble)))
 		throw;
 
-	if (!VectorCompare(get<2>(nonOpt), get<2>(sobes)) || !VectorCompare(get<2>(nonOpt), get<2>(sobesOrig)))
+	if (!VectorCompare(get<2>(nonOpt), get<2>(sobes)) || !VectorCompare(get<2>(nonOpt), get<2>(sobesOrig)) || !VectorCompare(get<2>(nonOpt), get<2>(bubble)))
 		throw;
 
-	return Result{ move(nonOpt),move(sobes), move(sobesOrig) };
+	return Result{ move(nonOpt),move(sobes), move(sobesOrig), move(bubble) };
 }
 
 inline void RemoveTest(const size_t masLen, const int nonZeroValue)
@@ -297,10 +366,10 @@ inline void RemoveTest(const size_t masLen, const int nonZeroValue)
 	for (vector<int>& v : VectorGenerator(masLen, nonZeroValue))
 		d.emplace_back(RemoveZero(v));
 
-	long long maxTimeNonOpt = 0, maxTimeSobes = 0, maxTimeSobesOrig = 0;
-	long long maxNonOpt = 0, maxSobes = 0, maxSobesOrig = 0;
-	long long timeNonOptMax = 0, timeSobesMax = 0, timeSobesOrigMax = 0;
-	long long timeNonOptMin = LLONG_MAX, timeSobesMin = LLONG_MAX, timeSobesOrigMin = LLONG_MAX;
+	long long maxTimeNonOpt = 0, maxTimeSobes = 0, maxTimeSobesOrig = 0, maxTimeBubble = 0;
+	long long maxNonOpt = 0, maxSobes = 0, maxSobesOrig = 0, maxBubble = 0;
+	long long timeNonOptMax = 0, timeSobesMax = 0, timeSobesOrigMax = 0, timeBubbleMax = 0;
+	long long timeNonOptMin = LLONG_MAX, timeSobesMin = LLONG_MAX, timeSobesOrigMin = LLONG_MAX, timeBubbleMin = LLONG_MAX;
 	for (const auto& v : d)
 	{
 		if (get<0>(v.NonOpt))
@@ -333,14 +402,30 @@ inline void RemoveTest(const size_t masLen, const int nonZeroValue)
 				timeSobesOrigMin = t;
 			++maxSobesOrig;
 		}
+		if (get<0>(v.Bubble))
+		{
+			const long long t = get<1>(v.Bubble);
+			maxTimeBubble += t;
+			if (timeBubbleMax < t)
+				timeBubbleMax = t;
+			if (timeBubbleMin > t)
+				timeBubbleMin = t;
+			++maxBubble;
+		}
 	}
 
-	// ReSharper disable once CppAssignedValueIsNeverUsed
-	maxTimeNonOpt /= maxNonOpt;
-	// ReSharper disable once CppAssignedValueIsNeverUsed
-	maxTimeSobes /= maxSobes;
-	// ReSharper disable once CppAssignedValueIsNeverUsed
-	maxTimeSobesOrig /= maxSobesOrig;
+	if (maxNonOpt != 0)
+		// ReSharper disable once CppAssignedValueIsNeverUsed
+		maxTimeNonOpt /= maxNonOpt;
+	if (maxSobes != 0)
+		// ReSharper disable once CppAssignedValueIsNeverUsed
+		maxTimeSobes /= maxSobes;
+	if (maxSobesOrig != 0)
+		// ReSharper disable once CppAssignedValueIsNeverUsed
+		maxTimeSobesOrig /= maxSobesOrig;
+	if (maxBubble != 0)
+		// ReSharper disable once CppAssignedValueIsNeverUsed
+		maxTimeBubble /= maxBubble;
 }
 
 inline void YandexTest()
@@ -354,5 +439,5 @@ inline void YandexTest()
 		//_asm int 3;
 	}
 
-	RemoveTest(3, 1);
+	RemoveTest(1, 1);
 }
