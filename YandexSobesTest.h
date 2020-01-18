@@ -68,7 +68,7 @@ private:
 
 // 1 1 1 1 1 1 1 
 
-/*inline bool VectorCompare(const vector<int>& v1, const vector<int>& v2)
+inline bool VectorCompare(const vector<int>& v1, const vector<int>& v2)
 {
 	if (v1.size() != v2.size())
 		return false;
@@ -76,7 +76,7 @@ private:
 		if (v1[k] != v2[k])
 			return false;
 	return true;
-}*/
+}
 
 inline bool VerifyResult(const vector<int>& v)
 {
@@ -119,9 +119,9 @@ private:
 			}
 			vector<int>::size_type k = _signVector.size();
 			while (k--)
-				if (int* t = &_signVector[k]; *t < _nonZeroValue)
+				if (int* t = &_signVector[k]; *t == 0)
 				{
-					++(*t);
+					*t = _nonZeroValue;
 					return true;
 				}
 				else
@@ -171,7 +171,14 @@ public:
 	}
 };
 
-inline vector<tuple<bool, long long, vector<int>>> RemoveZero(vector<int>& v)
+struct Result
+{
+	tuple<bool, long long, vector<int>> NonOpt;
+	tuple<bool, long long, vector<int>> Sobes;
+	tuple<bool, long long, vector<int>> SobesOrig;
+};
+
+inline Result RemoveZero(vector<int>& v)
 {
 	//for (vector<int>::size_type k = v.size() - 1; k >= 0; --k) // Œ–»√»Õ¿À
 	//{
@@ -255,9 +262,9 @@ inline vector<tuple<bool, long long, vector<int>>> RemoveZero(vector<int>& v)
 		return make_tuple(true, duration_cast<microseconds>(end - start).count(), v);
 	};
 
-	const auto nonOpt = solNonOpt();
-	const auto sobes = solSobes();
-	const auto sobesOrig = solSobesOrig();
+	auto nonOpt = solNonOpt();
+	auto sobes = solSobes();
+	auto sobesOrig = solSobesOrig();
 
 	const bool b = get<0>(nonOpt);
 	if (b != get<0>(sobes) || b != get<0>(sobesOrig))
@@ -266,11 +273,74 @@ inline vector<tuple<bool, long long, vector<int>>> RemoveZero(vector<int>& v)
 	if (!VerifyResult(get<2>(nonOpt)) || !VerifyResult(get<2>(sobes)) || !VerifyResult(get<2>(sobesOrig)))
 		throw;
 
-	vector<tuple<bool, long long, vector<int>>> result;
-	result.emplace_back(nonOpt);
-	result.emplace_back(sobes);
-	result.emplace_back(sobesOrig);
-	return result;
+	if (!VectorCompare(get<2>(nonOpt), get<2>(sobes)) || !VectorCompare(get<2>(nonOpt), get<2>(sobesOrig)))
+		throw;
+
+	return Result{ move(nonOpt),move(sobes), move(sobesOrig) };
+}
+
+inline void RemoveTest(const size_t masLen, const int nonZeroValue)
+{
+	if (masLen == 0 || nonZeroValue == 0)
+		throw;
+
+	const auto getVectorSize = [masLen]
+	{
+		size_t result = 1;
+		for (size_t k = 0; k < masLen; ++k)
+			result *= 2;
+		return result;
+	};
+
+	vector<Result> d;
+	d.reserve(getVectorSize());
+	for (vector<int>& v : VectorGenerator(masLen, nonZeroValue))
+		d.emplace_back(RemoveZero(v));
+
+	long long maxTimeNonOpt = 0, maxTimeSobes = 0, maxTimeSobesOrig = 0;
+	long long maxNonOpt = 0, maxSobes = 0, maxSobesOrig = 0;
+	long long timeNonOptMax = 0, timeSobesMax = 0, timeSobesOrigMax = 0;
+	long long timeNonOptMin = LLONG_MAX, timeSobesMin = LLONG_MAX, timeSobesOrigMin = LLONG_MAX;
+	for (const auto& v : d)
+	{
+		if (get<0>(v.NonOpt))
+		{
+			const long long t = get<1>(v.NonOpt);
+			maxTimeNonOpt += t;
+			if (timeNonOptMax < t)
+				timeNonOptMax = t;
+			if (timeNonOptMin > t)
+				timeNonOptMin = t;
+			++maxNonOpt;
+		}
+		if (get<0>(v.Sobes))
+		{
+			const long long t = get<1>(v.Sobes);
+			maxTimeSobes += t;
+			if (timeSobesMax < t)
+				timeSobesMax = t;
+			if (timeSobesMin > t)
+				timeSobesMin = t;
+			++maxSobes;
+		}
+		if (get<0>(v.SobesOrig))
+		{
+			const long long t = get<1>(v.SobesOrig);
+			maxTimeSobesOrig += t;
+			if (timeSobesOrigMax < t)
+				timeSobesOrigMax = t;
+			if (timeSobesOrigMin > t)
+				timeSobesOrigMin = t;
+			++maxSobesOrig;
+		}
+	}
+
+	// ReSharper disable once CppAssignedValueIsNeverUsed
+	maxTimeNonOpt /= maxNonOpt;
+	// ReSharper disable once CppAssignedValueIsNeverUsed
+	maxTimeSobes /= maxSobes;
+	// ReSharper disable once CppAssignedValueIsNeverUsed
+	maxTimeSobesOrig /= maxSobesOrig;
 }
 
 inline void YandexTest()
@@ -280,16 +350,9 @@ inline void YandexTest()
 		B* pb = new B();
 		const Foo f(pa, pb);
 		// ReSharper disable once CppDeclaratorNeverUsed
-		const Foo& d(f);
+		const Foo d(f);
 		//_asm int 3;
 	}
 
-	{
-		deque<tuple<bool, long long, vector<int>>> d;
-		VectorGenerator vc(3, 1);
-		for (vector<int>& v : vc)
-			for (auto& r : RemoveZero(v))
-				d.emplace_back(move(r));
-		_asm int 3;
-	}
+	RemoveTest(3, 1);
 }
