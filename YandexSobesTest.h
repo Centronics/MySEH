@@ -223,7 +223,8 @@ inline Result RemoveZero(vector<int>& v)
 		{
 			if (needResize && k == lastZero)
 			{
-				++lastZero;
+				if (v[k] != 0)
+					++lastZero;
 				needResize = true;
 				break;
 			}
@@ -344,5 +345,5 @@ inline void YandexTest()
 		//_asm int 3;
 	}
 
-	RemoveTest(2);
+	RemoveTest(10);
 }
