@@ -194,20 +194,32 @@ inline Result RemoveZero(vector<int>& v)
 	{
 		if (v.empty())
 			return tuple<bool, long long, vector<int>>();
+		const auto getcomplexCount = [v]
+		{
+			size_t elemsHandlingCount = 0;
+			for (vector<int>::size_type k = 0; k < v.size(); ++k)
+				if (v[k] == 0)
+					elemsHandlingCount += v.size() - k;
+				else
+					++elemsHandlingCount;
+			return elemsHandlingCount;
+		};
+		size_t elemsHandlingCount = 0;
 		const steady_clock::time_point start = steady_clock::now();
-		vector<int>::size_type k = 0;
-		for (auto begin = v.begin(); k < v.size(); ++k)
-			if (*begin == 0)
+		for (auto k = v.begin(); k != v.end(); )
+		{
+			if (*k == 0)
 			{
-				v.erase(begin); // ѕосле этого итератор недействителен.
-				if (k != 0)
-					--k;
-				begin = v.begin() + k;
-				--k;
+				elemsHandlingCount += v.size() - (k - v.begin());
+				k = v.erase(k);
+				continue;
 			}
-			else
-				++begin;
+			++k;
+			++elemsHandlingCount;
+		}
 		const steady_clock::time_point end = steady_clock::now();
+		if (elemsHandlingCount != getcomplexCount())
+			throw;
 		return make_tuple(true, duration_cast<microseconds>(end - start).count(), v);
 	};
 
@@ -215,19 +227,23 @@ inline Result RemoveZero(vector<int>& v)
 	{
 		if (v.empty())
 			return tuple<bool, long long, vector<int>>();
-		const steady_clock::time_point start = steady_clock::now();
 		vector<int>::size_type lastZero = 0;
-		bool needResize = false;
-		vector<int>::size_type k = v.size() - 1;
+		bool needResize = false, needEnd = false;
+		const vector<int>::size_type sz = v.size();
+		vector<int>::size_type k = sz - 1;
+		size_t elemsHandlingCount = 0;
+		const steady_clock::time_point start = steady_clock::now();
 		do
 		{
 			if (needResize && k == lastZero)
 			{
+				++elemsHandlingCount;
 				if (v[k] != 0)
 					++lastZero;
 				needResize = true;
 				break;
 			}
+			++elemsHandlingCount;
 			if (v[k] == 0)
 			{
 				if (k != 0)
@@ -238,12 +254,15 @@ inline Result RemoveZero(vector<int>& v)
 			vector<int>::size_type i = lastZero;
 			for (; i < k; ++i)
 			{
+				++elemsHandlingCount;
 				if (v[i] != 0)
 					continue;
 				v[i] = 1;
 				v[k] = 0;
 				lastZero = i + 1;
 				needResize = true;
+				if (k == lastZero)
+					needEnd = true;
 				break;
 			}
 			if (i == k)
@@ -252,10 +271,12 @@ inline Result RemoveZero(vector<int>& v)
 				needResize = true;
 				break;
 			}
-		} while (k--);
+		} while (!needEnd && k--);
 		if (needResize)
 			v.resize(lastZero);
 		const steady_clock::time_point end = steady_clock::now();
+		if (elemsHandlingCount != sz)
+			throw;
 		return make_tuple(true, duration_cast<microseconds>(end - start).count(), v);
 	};
 
@@ -286,7 +307,7 @@ inline void RemoveTest(const size_t masLen)
 	{
 		size_t result = 1;
 		for (size_t k = 0; k < masLen; ++k)
-			result *= 2;
+			result <<= 1;
 		return result;
 	};
 
