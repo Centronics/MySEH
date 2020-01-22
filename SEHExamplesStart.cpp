@@ -57,8 +57,8 @@
 
 #include "YandexSobesTest.h"
 
-int main()
+int __cdecl main()
 {
-	YandexTest();
+	YandexTest(true);
 	return 0;
 }

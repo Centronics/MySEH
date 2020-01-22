@@ -82,6 +82,8 @@
       <OmitFramePointers>true</OmitFramePointers>
       <CallingConvention>VectorCall</CallingConvention>
       <StringPooling>false</StringPooling>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
