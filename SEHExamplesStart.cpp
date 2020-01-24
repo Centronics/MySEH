@@ -59,6 +59,13 @@
 
 int __cdecl main()
 {
-	YandexTest(true);
-	return 0;
+	try
+	{
+		YandexTest(true);
+		return 0;
+	}
+	catch (...)
+	{
+		return 1;
+	}
 }

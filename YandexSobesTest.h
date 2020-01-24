@@ -169,11 +169,11 @@ public:
 
 struct Result
 {
-	tuple<bool, long long, vector<int>> NonOpt;
-	tuple<bool, long long, vector<int>> Sobes;
+	tuple<long long, vector<int>> NonOpt;
+	tuple<long long, vector<int>> Sobes;
 };
 
-inline Result RemoveZero(vector<int>& v)
+inline Result RemoveZero(const vector<int>& mainVector)
 {
 	//for (vector<int>::size_type k = v.size() - 1; k >= 0; --k) // Œ–»√»Õ¿À
 	//{
@@ -191,20 +191,20 @@ inline Result RemoveZero(vector<int>& v)
 	//	}
 	//}
 
-	auto solNonOpt = [v]() mutable -> tuple<bool, long long, vector<int>>
+	auto solNonOpt = [](vector<int> v) -> tuple<long long, vector<int>>
 	{
-		if (v.empty())
-			return tuple<bool, long long, vector<int>>();
-		const auto getcomplexCount = [v]
+		const auto getcomplexCount = [](const vector<int>& t)
 		{
 			size_t elemsHandlingCount = 0;
-			for (vector<int>::size_type k = 0; k < v.size(); ++k)
-				if (v[k] == 0)
-					elemsHandlingCount += v.size() - k;
+			for (vector<int>::size_type k = 0; k < t.size(); ++k)
+				if (t[k] == 0)
+					elemsHandlingCount += t.size() - k;
 				else
 					++elemsHandlingCount;
 			return elemsHandlingCount;
 		};
+
+		const size_t complexCount = getcomplexCount(v);
 		size_t elemsHandlingCount = 0;
 		const steady_clock::time_point start = steady_clock::now();
 		for (auto k = v.begin(); k != v.end(); )
@@ -219,15 +219,13 @@ inline Result RemoveZero(vector<int>& v)
 			++elemsHandlingCount;
 		}
 		const steady_clock::time_point end = steady_clock::now();
-		if (elemsHandlingCount != getcomplexCount())
+		if (elemsHandlingCount != complexCount)
 			throw;
-		return make_tuple(true, duration_cast<nanoseconds>(end - start).count(), v);
+		return make_tuple(duration_cast<nanoseconds>(end - start).count(), move(v));
 	};
 
-	auto solSobes = [v]() mutable -> tuple<bool, long long, vector<int>>
+	auto solSobes = [](vector<int> v) -> tuple<long long, vector<int>>
 	{
-		if (v.empty())
-			return tuple<bool, long long, vector<int>>();
 		vector<int>::size_type lastZero = 0;
 		bool needResize = false, needEnd = false;
 		const vector<int>::size_type sz = v.size();
@@ -278,32 +276,26 @@ inline Result RemoveZero(vector<int>& v)
 		const steady_clock::time_point end = steady_clock::now();
 		if (elemsHandlingCount != sz)
 			throw;
-		return make_tuple(true, duration_cast<nanoseconds>(end - start).count(), v);
+		return make_tuple(duration_cast<nanoseconds>(end - start).count(), move(v));
 	};
 
-	auto nonOpt = solNonOpt();
-	auto sobes = solSobes();
+	auto nonOpt = solNonOpt(mainVector);
+	auto sobes = solSobes(mainVector);
 
-	if (get<0>(nonOpt) != get<0>(sobes))
+	if (!VerifyResult(get<1>(nonOpt)) || !VerifyResult(get<1>(sobes)))
 		throw;
 
-	if (!VerifyResult(get<2>(nonOpt)) || !VerifyResult(get<2>(sobes)))
+	if (!VectorCompare(get<1>(nonOpt), get<1>(sobes)))
 		throw;
 
-	if (!VectorCompare(get<2>(nonOpt), get<2>(sobes)))
-		throw;
-
-	if (OnesCount(v) != OnesCount(get<2>(sobes)))
+	if (OnesCount(mainVector) != OnesCount(get<1>(sobes)))
 		throw;
 
 	return Result{ move(nonOpt),move(sobes) };
 }
 
-inline void RemoveTest(const size_t masLen, const bool writeToFile)
+inline void RemoveTest(const size_t masLen, const bool writeToFile, ofstream& out)
 {
-	if (masLen == 0)
-		throw;
-
 	const auto getVectorSize = [masLen]
 	{
 		size_t result = 1;
@@ -312,21 +304,12 @@ inline void RemoveTest(const size_t masLen, const bool writeToFile)
 		return result;
 	};
 
-	ofstream out;
-
-	if (writeToFile)
-	{
-		out.open("D:\\Output.txt", std::ofstream::trunc);
-		if (!out.is_open())
-			throw;
-	}
-
 	const auto writeVectorToFile = [&out, writeToFile](const vector<int>& v)
 	{
 		if (!writeToFile)
 			return;
 		if (v.empty())
-			out << "<empty>";
+			out << "<empty> ";
 		else
 			for (const auto i : v)
 			{
@@ -335,97 +318,113 @@ inline void RemoveTest(const size_t masLen, const bool writeToFile)
 			}
 	};
 
-	const auto writeResultToFile = [&out, writeToFile, &writeVectorToFile](const tuple<bool, long long, vector<int>>& result, const char* comment)
+	const auto writeResultToFile = [&out, writeToFile, &writeVectorToFile](const tuple<long long, vector<int>>& result, const char* comment)
 	{
 		if (!writeToFile)
 			return;
 		out << "=> " << comment << " = ";
-		if (!get<0>(result))
-		{
-			out << "<empty>" << endl;
-			return;
-		}
-		writeVectorToFile(get<2>(result));
-		out << "=> Time = " << get<1>(result) << "ns" << endl;
+		writeVectorToFile(get<1>(result));
+		out << "=> Time = " << get<0>(result) << "ns" << endl;
 	};
 
+	bool makeMargin = false;
 	vector<Result> d;
 	d.reserve(getVectorSize());
 
 	for (const vector<int>& v : VectorGenerator(masLen))
 	{
-		vector<int> t = v;
 		if (writeToFile)
 			out << "Source = ";
-		writeVectorToFile(t);
+		writeVectorToFile(v);
 		if (writeToFile)
 			out << endl;
-		Result result = RemoveZero(t);
+		Result result = RemoveZero(v);
 		writeResultToFile(result.Sobes, "Sobes");
 		writeResultToFile(result.NonOpt, "NonOpt");
 		if (writeToFile)
+		{
 			out << "--------------------------------------------------------------" << endl;
-		d.emplace_back(result);
+			makeMargin = true;
+		}
+		d.emplace_back(move(result));
 	}
 
-	long long maxTimeNonOpt = 0, maxTimeSobes = 0;
-	long long maxNonOpt = 0, maxSobes = 0;
-	long long timeNonOptMax = 0, timeSobesMax = 0;
-	long long timeNonOptMin = LLONG_MAX, timeSobesMin = LLONG_MAX;
+	if (writeToFile && makeMargin)
+		out << endl;
+
+	long long maxSobesAtts = 0, maxNonOptAtts = 0;
+	long long timeSobesMax = 0, timeNonOptMax = 0;
+	long long timeSobesOve = 0, timeNonOptOve = 0;
+	long long timeSobesMin = LLONG_MAX, timeNonOptMin = LLONG_MAX;
 
 	for (const auto& v : d)
 	{
-		if (get<0>(v.Sobes))
 		{
-			const long long t = get<1>(v.Sobes);
-			maxTimeSobes += t;
+			const long long t = get<0>(v.Sobes);
+			timeSobesOve += t;
 			if (timeSobesMax < t)
 				timeSobesMax = t;
 			if (timeSobesMin > t)
 				timeSobesMin = t;
-			++maxSobes;
+			++maxSobesAtts;
 		}
-		if (get<0>(v.NonOpt))
 		{
-			const long long t = get<1>(v.NonOpt);
-			maxTimeNonOpt += t;
+			const long long t = get<0>(v.NonOpt);
+			timeNonOptOve += t;
 			if (timeNonOptMax < t)
 				timeNonOptMax = t;
 			if (timeNonOptMin > t)
 				timeNonOptMin = t;
-			++maxNonOpt;
+			++maxNonOptAtts;
 		}
 	}
 
-	if (maxSobes != 0)
-		maxTimeSobes /= maxSobes;
-	if (maxNonOpt != 0)
-		maxTimeNonOpt /= maxNonOpt;
-
 	if (writeToFile)
 	{
-		out << endl << "<<< TEST START >>>" << endl;
-		out << "Attempts \"Sobes\" = " << maxSobes << endl;
-		out << "Max time \"Sobes\" = " << timeSobesMax << "ns" << endl;
-		out << "Mid time \"Sobes\" = " << maxTimeSobes << "ns" << endl;
-		out << "Min time \"Sobes\" = " << timeSobesMin << "ns" << endl;
+		out << "<<< START OF TEST >>>" << endl;
+		if (maxSobesAtts > 0)
+		{
+			out << "Attempts \"Sobes\" = " << maxSobesAtts << endl;
+			out << "Max time \"Sobes\" = " << timeSobesMax << "ns" << endl;
+			out << "Mid time \"Sobes\" = " << timeSobesOve / maxSobesAtts << "ns" << endl;
+			out << "Min time \"Sobes\" = " << timeSobesMin << "ns" << endl;
+		}
+		else
+			out << "<empty>" << endl;
 		out << "--------------------------------------------------------------" << endl;
-		out << "Attempts \"NonOpt\" = " << maxNonOpt << endl;
-		out << "Max time \"NonOpt\" = " << timeNonOptMax << "ns" << endl;
-		out << "Mid time \"NonOpt\" = " << maxTimeNonOpt << "ns" << endl;
-		out << "Min time \"NonOpt\" = " << timeNonOptMin << "ns" << endl << "<<< END OF TEST >>>";
+		if (maxNonOptAtts > 0)
+		{
+			out << "Attempts \"NonOpt\" = " << maxNonOptAtts << endl;
+			out << "Max time \"NonOpt\" = " << timeNonOptMax << "ns" << endl;
+			out << "Mid time \"NonOpt\" = " << timeNonOptOve / maxNonOptAtts << "ns" << endl;
+			out << "Min time \"NonOpt\" = " << timeNonOptMin << "ns" << endl;
+		}
+		else
+			out << "<empty>" << endl;
+		out << "<<< END OF TEST >>>";
 	}
 
-	cout << "<<< TEST START >>>" << endl;
-	cout << "Attempts \"Sobes\" = " << maxSobes << endl;
-	cout << "Max time \"Sobes\" = " << timeSobesMax << "ns" << endl;
-	cout << "Mid time \"Sobes\" = " << maxTimeSobes << "ns" << endl;
-	cout << "Min time \"Sobes\" = " << timeSobesMin << "ns" << endl;
+	cout << "<<< START OF TEST >>>" << endl;
+	if (maxSobesAtts > 0)
+	{
+		cout << "Attempts \"Sobes\" = " << maxSobesAtts << endl;
+		cout << "Max time \"Sobes\" = " << timeSobesMax << "ns" << endl;
+		cout << "Mid time \"Sobes\" = " << timeSobesOve / maxSobesAtts << "ns" << endl;
+		cout << "Min time \"Sobes\" = " << timeSobesMin << "ns" << endl;
+	}
+	else
+		cout << "<empty>" << endl;
 	cout << "--------------------------------------------------------------" << endl;
-	cout << "Attempts \"NonOpt\" = " << maxNonOpt << endl;
-	cout << "Max time \"NonOpt\" = " << timeNonOptMax << "ns" << endl;
-	cout << "Mid time \"NonOpt\" = " << maxTimeNonOpt << "ns" << endl;
-	cout << "Min time \"NonOpt\" = " << timeNonOptMin << "ns" << endl << "<<< END OF TEST >>>" << endl << endl;
+	if (maxNonOptAtts > 0)
+	{
+		cout << "Attempts \"NonOpt\" = " << maxNonOptAtts << endl;
+		cout << "Max time \"NonOpt\" = " << timeNonOptMax << "ns" << endl;
+		cout << "Mid time \"NonOpt\" = " << timeNonOptOve / maxNonOptAtts << "ns" << endl;
+		cout << "Min time \"NonOpt\" = " << timeNonOptMin << "ns" << endl;
+	}
+	else
+		cout << "<empty>" << endl;
+	cout << "<<< END OF TEST >>>" << endl << endl;
 }
 
 inline void YandexTest(const bool writeToFile)
@@ -439,6 +438,19 @@ inline void YandexTest(const bool writeToFile)
 		//_asm int 3;
 	}
 
-	for (size_t k = 1; k <= 5; ++k)
-		RemoveTest(k, writeToFile);
+	ofstream out;
+
+	if (writeToFile)
+	{
+		out.open("D:\\Output.txt", ofstream::trunc);
+		if (!out.is_open())
+			throw;
+	}
+
+	for (size_t k = 0, max = 10; k < max; ++k)
+	{
+		RemoveTest(k, writeToFile, out);
+		if (writeToFile && k < max - 1)
+			out << endl << endl;
+	}
 }
