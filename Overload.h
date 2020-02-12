@@ -32,6 +32,9 @@ static char Per(int, int)
 	return 2;
 }
 
+void Print(float fValue);
+void Print(struct sValue);
+
 void OverloadStart()
 {
 	char t = Per();
@@ -42,4 +45,9 @@ void OverloadStart()
 	Per(nullptr);
 	Per(0.0f);
 	Per(0.0);
+
+	Print('a');
+	Print(0);
+	Print(3.14159);
+	Print('a');   // promoted to match Print(float)
 }

@@ -1,6 +1,9 @@
 class GC
 {
 public:
+	virtual ~GC() {} // можно default
+	int Hj = 9;
+
 	virtual void CupFunc()
 	{
 		__asm nop;
@@ -27,7 +30,10 @@ public:
 class C : virtual public D
 {
 public:
-	virtual void foo(){}
+	virtual void foo()
+	{
+		Hj = 200;
+	}
 	C()
 	{
 		__asm nop;
@@ -41,7 +47,11 @@ public:
 class F : virtual public D
 {
 public:
-	virtual char foo(int){return 0;}
+	virtual char foo(int)
+	{
+		Hj = 100;
+		return 0;
+	}
 	F()
 	{
 		__asm nop;
@@ -57,8 +67,9 @@ class Cl : public F, public C
 public:
 	virtual void foo(char w)
 	{
-		if(w) F::foo(1);
+		if (w) F::foo(1);
 		else C::foo();
+		Hj = 10;
 	}
 	Cl()
 	{
@@ -71,11 +82,45 @@ public:
 	}
 };
 
+class l2
+{
+
+};
+
+class Lock
+{
+	/*friend class Foo;
+	Lock() { }
+	Lock(const Lock&) { }*/
+};
+
+class Foo : private Lock, l2 // Чтобы не компилилось, надо написать virtual private
+{
+
+};
+
+class Bar : public Foo
+{
+
+};
+
 void VirtualInheritStart()
 {
+	{
+		Foo foo;
+		Bar bar;
+	}
+
+	{
+		F f; // тоже можно
+		f.Hj = 20;
+		f.foo(2);
+		f.CupFunc();
+	}
 	Cl myc;
 	myc.CupFunc();
 	myc.GC::CupFunc();
 	myc.foo(1);
 	myc.foo(0);
 }
+

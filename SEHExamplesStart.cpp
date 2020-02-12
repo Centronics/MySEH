@@ -1,4 +1,4 @@
-/*#include "ExampleOne.h"
+﻿/*#include "ExampleOne.h"
 #include "Example2.h"
 #include "Example3.h"
 #include "VirtualDestructor.h"
@@ -55,13 +55,10 @@
 #include "map.h"
 #include "YandexSobesTest.h"*/
 
-#include "YandexSobesTest.h"
-
 int __cdecl main()
 {
 	try
 	{
-		YandexTest(true);
 		return 0;
 	}
 	catch (...)

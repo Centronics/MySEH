@@ -1,5 +1,6 @@
 #pragma once
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -36,4 +37,20 @@ inline void FstreamTest()
 		unique_ptr<int[]> iop(new int[20]);
 		iop[1] = 20;
 	}
+
+	long long va, vb, vc, vd, ve;
+
+	ifstream s2("D:\\PriceList.dat");
+	if (!s2.is_open())
+	{
+		cout << "BAD4";
+		return;
+	}
+
+	s2 >> va;
+	s2 >> vb;
+	s2 >> vc;
+	s2 >> vd;
+	s2 >> ve;
+	__asm nop;
 }

@@ -179,9 +179,6 @@
     <ClInclude Include="Relatives.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="MapDemo.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Variant.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -258,6 +255,21 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="YandexSobesTest.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Comma.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ExceptionConstruction.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="AmbigiousOverload.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="StringExample.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="EqualWithoutBuffer.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

@@ -77,8 +77,39 @@ public:
 	Object1 obj;
 };
 
+class Parent
+{
+public:
+
+	virtual void print()
+	{
+		std::cout << "Родительский класс" << std::endl;
+	}
+
+	virtual void pa()
+	{
+
+	}
+};
+
+class DerivedFromParent : public Parent
+{
+public:
+
+	virtual void print(int x)
+	{
+		std::cout << "Производный класс" << std::endl;
+	}
+};
+
 static void VirtualDestructorStart()
 {
+	{
+		DerivedFromParent* derived = new DerivedFromParent;
+		//derived->print(); // Ошибка, т.к. происходит переопределение метода print, несмотря на сигнатуру, это не зависит от virtual
+		derived->pa(); // нормально
+	}
+
 	int x = sizeof(Base);
 	int y = sizeof(Derived);
 	int z = sizeof(Derived1);

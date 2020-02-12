@@ -114,9 +114,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alignas.h" />
+    <ClInclude Include="AmbigiousOverload.h" />
     <ClInclude Include="Any.h" />
     <ClInclude Include="Casting.h" />
     <ClInclude Include="ClassCopy.h" />
+    <ClInclude Include="Comma.h" />
     <ClInclude Include="Compl.h" />
     <ClInclude Include="ConstrException.h" />
     <ClInclude Include="Access.h" />
@@ -129,6 +131,7 @@
     <ClInclude Include="DestrException2.h" />
     <ClInclude Include="DynamicTemplate.h" />
     <ClInclude Include="Equal.h" />
+    <ClInclude Include="EqualWithoutBuffer.h" />
     <ClInclude Include="Example2.h" />
     <ClInclude Include="Example3.h" />
     <ClInclude Include="Example4.h" />
@@ -137,6 +140,7 @@
     <ClInclude Include="Example7.h" />
     <ClInclude Include="Example8.h" />
     <ClInclude Include="ExampleOne.h" />
+    <ClInclude Include="ExceptionConstruction.h" />
     <ClInclude Include="Explicit.h" />
     <ClInclude Include="Expression.h" />
     <ClInclude Include="ForEach.h" />
@@ -152,7 +156,6 @@
     <ClInclude Include="LambdaPointer.h" />
     <ClInclude Include="LinkExample.h" />
     <ClInclude Include="map.h" />
-    <ClInclude Include="MapDemo.h" />
     <ClInclude Include="MoveConstructor.h" />
     <ClInclude Include="Narrow.h" />
     <ClInclude Include="PlacementNew.h" />
@@ -165,6 +168,7 @@
     <ClInclude Include="Requires.h" />
     <ClInclude Include="SobesErrors_31_07_2015.h" />
     <ClInclude Include="StaticIntTest.h" />
+    <ClInclude Include="StringExample.h" />
     <ClInclude Include="Switch.h" />
     <ClInclude Include="Template.h" />
     <ClInclude Include="typedefMas.h" />

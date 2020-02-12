@@ -5,6 +5,9 @@
 #include <optional>
 #include <fstream>
 #include <iostream>
+#include <list>
+#include <string>
+#include <set>
 
 using namespace std;
 using namespace std::chrono;
@@ -193,7 +196,7 @@ inline Result RemoveZero(const vector<int>& mainVector)
 
 	auto solNonOpt = [](vector<int> v) -> tuple<long long, vector<int>>
 	{
-		const auto getcomplexCount = [](const vector<int>& t)
+		/*const auto getcomplexCount = [](const vector<int>& t) // ÍÅÎÏÒÈÌÀËÜÍÛÉ ÀËÃÎĞÈÒÌ, ÏĞÈÄÓÌÀÍ ÌÍÎÉ ÄËß ÒÅÑÒÈĞÎÂÀÍÈß ÎÑÒÀËÜÍÛÕ
 		{
 			size_t elemsHandlingCount = 0;
 			for (vector<int>::size_type k = 0; k < t.size(); ++k)
@@ -205,9 +208,9 @@ inline Result RemoveZero(const vector<int>& mainVector)
 		};
 
 		const size_t complexCount = getcomplexCount(v);
-		size_t elemsHandlingCount = 0;
-		const steady_clock::time_point start = steady_clock::now();
-		for (auto k = v.begin(); k != v.end(); )
+		size_t elemsHandlingCount = 0;*/
+		//const steady_clock::time_point start = steady_clock::now();
+		/*for (auto k = v.begin(); k != v.end(); )
 		{
 			if (*k == 0)
 			{
@@ -217,16 +220,12 @@ inline Result RemoveZero(const vector<int>& mainVector)
 			}
 			++k;
 			++elemsHandlingCount;
-		}
-		const steady_clock::time_point end = steady_clock::now();
-		if (elemsHandlingCount != complexCount)
-			throw;
-		return make_tuple(duration_cast<nanoseconds>(end - start).count(), move(v));
-	};
+		}*/
+		//const steady_clock::time_point end = steady_clock::now();
+		//if (elemsHandlingCount != complexCount)
+			//throw;
 
-	auto solSobes = [](vector<int> v) -> tuple<long long, vector<int>>
-	{
-		vector<int>::size_type lastZero = 0;
+		vector<int>::size_type lastZero = 0; // ÎÒÍÎÑÈÒÅËÜÍÎ ÎÏÒÈÌÀËÜÍÛÉ ÀËÃÎĞÈÒÌ, ÏĞÈÄÓÌÀÍ ÌÍÎÉ ÍÀ ÑÎÁÅÑÅÄÎÂÀÍÈÈ Â ßÍÄÅÊÑÅ
 		bool needResize = false, needEnd = false;
 		const vector<int>::size_type sz = v.size();
 		vector<int>::size_type k = sz - 1;
@@ -276,6 +275,27 @@ inline Result RemoveZero(const vector<int>& mainVector)
 		const steady_clock::time_point end = steady_clock::now();
 		if (elemsHandlingCount != sz)
 			throw;
+		return make_tuple(duration_cast<nanoseconds>(end - start).count(), move(v));
+
+		//return make_tuple(duration_cast<nanoseconds>(end - start).count(), move(v));
+	};
+
+	auto solSobes = [](vector<int> v) -> tuple<long long, vector<int>>
+	{
+		const steady_clock::time_point start = steady_clock::now(); // ÈÇ ÈÍÒÅĞÍÅÒÀ, ÑÀÌÛÉ ÎÏÒÈÌÀËÜÍÛÉ
+		auto pStr = v.begin();
+		auto str = v.cbegin();
+		while (str != v.cend())
+		{
+			if (*str != 0)
+			{
+				*pStr = *str;
+				++pStr;
+			}
+			++str;
+		}
+		v.resize(pStr - v.begin());
+		const steady_clock::time_point end = steady_clock::now();
 		return make_tuple(duration_cast<nanoseconds>(end - start).count(), move(v));
 	};
 
@@ -427,6 +447,217 @@ inline void RemoveTest(const size_t masLen, const bool writeToFile, ofstream& ou
 	cout << "<<< END OF TEST >>>" << endl << endl;
 }
 
+inline void ReverseLinkedList(list<int>&& lst)
+{
+	//	lst.reverse(); // Ğåøåíèå
+
+	struct Element
+	{
+		Element* Next = nullptr;
+		int Value = 0;
+	};
+
+	class ForwardList
+	{
+		Element* _elt = nullptr;
+		size_t _count = 0;
+
+		[[nodiscard]] Element* GetElement(size_t n) const
+		{
+			if (_elt == nullptr)
+				return nullptr;
+			Element* e = _elt;
+			do
+			{
+				if (n == 0)
+					return e;
+				n--;
+				if (e->Next == nullptr)
+					return nullptr;
+				e = e->Next;
+			} while (true);
+		}
+
+	public:
+
+		void Add(const int& value)
+		{
+			if (_elt == nullptr)
+			{
+				_elt = new Element;
+				_elt->Value = value;
+				_count++;
+				return;
+			}
+			Element* e = _elt;
+			do
+			{
+				if (e->Next == nullptr)
+				{
+					e->Next = new Element{ nullptr, value };
+					_count++;
+					return;
+				}
+				e = e->Next;
+			} while (true);
+		}
+
+		void Invert() const
+		{
+			if (_count == 0 || _count == 1)
+				return;
+			const size_t max = _count / 2;
+			for (size_t k = _count - 1, j = 0; j < max; --k, ++j)
+			{
+				Element* eEnd = GetElement(k);
+				Element* eBegin = GetElement(j);
+				int bValue = move(eBegin->Value); // Ïåğåìåùåíèå
+				eBegin->Value = move(eEnd->Value);
+				eEnd->Value = move(bValue);
+			}
+		}
+	};
+
+	ForwardList fw;
+	fw.Add(1);
+	fw.Add(2);
+	fw.Add(3);
+	fw.Add(4);
+	fw.Add(5);
+
+	fw.Invert();
+}
+
+inline void ReadStringAB()
+{
+	string s;
+	ifstream file("D:\\PriceList.dat");
+
+	getline(file, s);
+
+	file.close();
+
+	char *a = &s[0], *pa = nullptr;
+	const long long va = _strtoi64(a, &pa, 10);
+	char* t;
+	char *b = strtok_s(pa, " ", &t), *pb = nullptr;
+	if (b == nullptr)
+	{
+		cout << "BAD1";
+		return;
+	}
+	const long long vb = _strtoi64(b, &pb, 10);
+	if (t != pb || pb != &s[s.size()])
+	{
+		cout << "BAD3";
+		return;
+	}
+
+	/*long long va, vb;
+
+	ifstream s("D:\\PriceList.dat");
+	if (!s.is_open())
+	{
+		cout << "BAD4";
+		return;
+	}
+
+	s >> va;
+	s >> vb;*/
+
+	if (va < -2'000'000'000 || va > 2'000'000'000)
+	{
+		cout << "BAD5";
+		return;
+	}
+	if (vb < -2'000'000'000 || vb > 2'000'000'000)
+	{
+		cout << "BAD6";
+		return;
+	}
+	cout << va + vb << endl;
+}
+
+inline int ReadBinaryString(const vector<bool>& v)
+{
+	int max = 0, cur = 0;
+	for (vector<bool>::size_type k = 0; k < v.size(); ++k)
+	{
+		if (v[k])
+		{
+			++cur;
+			if (cur > max)
+				max = cur;
+		}
+		else
+			cur = 0;
+	}
+	return max;
+}
+
+inline void RemoveCopies(vector<int>&& v)
+{
+	class mya
+	{
+	public:
+		int n = 11;
+
+		bool operator != (const mya&) const { return true; }
+		mya operator *()const { return *this; }
+		mya& get() { return *this; }
+
+		/*Ñğàâíåíèå (a!=b);
+Ğàçûìåíîâàíèå (*a);
+Èíêğåìåíò (a++ è ++a);
+Èíêğåìåíò çíà÷åíèÿ (*a++);*/
+	};
+
+	mya mm;
+	mya& fg = mm.get();
+
+	//set<mya> ma = {mya(), mya()};
+
+
+	set<int> s = { 9,11,8,7,6,5,4,3,2,1,0 };//îäíî èç ğåøåíèé
+	set<int>::size_type n = s.count(1);
+	set<int>::iterator e = s.find(10);
+	set<int>::iterator f = s.find(11);
+	s.erase(9);
+	s.erase(f);
+	//int g = *e; // AV
+
+	for (vector<int>::size_type k = 0; k < v.size(); ++k)
+	{
+		//ëèáî map, ëèáî for
+	}
+}
+
+inline vector<int> TwoSum(vector<int>&& nums, const int target)
+{
+	for (vector<int>::size_type i = 0; i < nums.size(); ++i)
+		for (vector<int>::size_type j = 0; j < nums.size(); ++j)
+			if (j != i && nums[i] + nums[j] == target)
+				return vector<int>({ nums[i], nums[j] });
+	return vector<int>();
+}
+
+inline int NonPairLinear(const vector<int>& v)
+{
+	const auto search = [&v](const int value)
+	{
+		int count = 0;
+		for (const int j : v)
+			count += j == value;
+		return count == 2;
+	};
+
+	for (const int k : v)
+		if (!search(k))
+			return k;
+	return -1;
+	// return v.reduce(sum,val)=>sum^val,0); // ÒÎÆÅ ĞÅØÅÍÈÅ
+}
+
 inline void YandexTest(const bool writeToFile)
 {
 	{
@@ -438,6 +669,33 @@ inline void YandexTest(const bool writeToFile)
 		//_asm int 3;
 	}
 
+	{
+		int len = ReadBinaryString({ true, true, true, true, true, true, true, true, false, true, true, true, true });
+
+		auto twoSum = TwoSum({ 6,7,6,5 }, 6);
+
+		RemoveCopies({ 0,1,2,3,4,5,6,7,8,9,9,7,6,5,4,3,2 });
+	}
+
+	{
+		vector<int> vec;
+
+		for (;;)
+		{
+			cout << "Input number:" << endl;
+			int t;
+			cin >> t;
+			if (t < 0)
+				break;
+			vec.emplace_back(t);
+		}
+
+		if (const int result = NonPairLinear(vec); result < 0)
+			cout << "Nonpair numbers is absent." << endl;
+		else
+			cout << "Nonpair number is: " << result << endl;
+	}
+
 	ofstream out;
 
 	if (writeToFile)
@@ -447,7 +705,7 @@ inline void YandexTest(const bool writeToFile)
 			throw;
 	}
 
-	for (size_t k = 0, max = 10; k < max; ++k)
+	for (size_t k = 60, max = 61; k < max; ++k)
 	{
 		RemoveTest(k, writeToFile, out);
 		if (writeToFile && k < max - 1)
