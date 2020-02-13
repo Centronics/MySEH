@@ -1,12 +1,13 @@
 #pragma once
 
 #include <list>
+#include <vector>
 
 using namespace std;
 
-inline void ListOperationsDemo()
+template <typename T> void ListOperationsDemo()
 {
-	list<int> lst = { 1, 2, 3, 4, 5 };
+	T lst = { 1, 2, 3, 4, 5 };
 	for (auto it = lst.begin(); it != lst.end(); ++it)
 	{
 		if (*it < 3)
@@ -16,3 +17,8 @@ inline void ListOperationsDemo()
 		--it;
 	}
 }
+
+/*
+ *ListOperationsDemo<list<int>>();
+ListOperationsDemo<vector<int>>(); // Не сработает, у vector будет ошибка на строке 17.
+*/
