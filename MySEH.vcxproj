@@ -155,6 +155,7 @@
     <ClInclude Include="KeepWindowOpen.h" />
     <ClInclude Include="LambdaPointer.h" />
     <ClInclude Include="LinkExample.h" />
+    <ClInclude Include="ListOperations.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="MoveConstructor.h" />
     <ClInclude Include="Narrow.h" />

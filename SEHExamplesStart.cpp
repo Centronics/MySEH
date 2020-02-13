@@ -53,7 +53,8 @@
 #include "Defaults.h"
 #include "Casting.h"
 #include "map.h"
-#include "YandexSobesTest.h"*/
+#include "YandexSobesTest.h"
+#include "ListOperations.h"*/
 
 int __cdecl main()
 {
