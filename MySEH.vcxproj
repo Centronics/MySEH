@@ -169,6 +169,7 @@
     <ClInclude Include="Requires.h" />
     <ClInclude Include="SobesErrors_31_07_2015.h" />
     <ClInclude Include="StaticIntTest.h" />
+    <ClInclude Include="STDThread.h" />
     <ClInclude Include="StringExample.h" />
     <ClInclude Include="Switch.h" />
     <ClInclude Include="Template.h" />
