@@ -14,5 +14,9 @@ inline void STDThreadDemo()
 
 	thread t3([&] { a = a + 1; });
 
+	/*t1.join(); // Если убрать, программа вылетит.
+	t2.join();
+	t3.join();*/
+	
 	__asm nop;
 }
