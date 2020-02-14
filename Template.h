@@ -5,6 +5,14 @@
 
 using namespace std;
 
+class ConstrClass
+{
+public:
+	template <typename T> ConstrClass(T e) { t = e; }
+
+	float t;
+};
+
 template<typename T> class TstTemplate
 {
 public:
@@ -181,6 +189,8 @@ template<auto Constant> void ConstantPrinter1()
 
 inline void TstTemplateDemo()
 {
+	ConstrClass d(1);
+
 	ConstantPrinter<1>();
 	ConstantPrinter1<2>();
 
