@@ -427,11 +427,19 @@ struct Derived : Base
 	virtual void Foo(int i = 0) { cout << "derived::FOO" << endl; }
 };
 
+#include "KasperskyProblemTest.h"
+
 int __cdecl main()
 {
 	try
 	{
-		Derived d;
+		vector<int> iv = {1};
+		iv.erase(iv.begin(),iv.begin());
+		
+		vector<string> strings = { "D:\\123.txt", "F:\\124.txt", "G:123.tyt" };
+		auto v = solution(strings);
+		
+		/*Derived d;
 		d.Foo();
 		Base &b = d;
 		b.Foo();
@@ -442,7 +450,7 @@ int __cdecl main()
 		auto t = solution5(v);
 
 		// ReSharper disable once CppDeclaratorNeverUsed
-		//int i = solution(2'147'483'647);
+		//int i = solution(2'147'483'647);*/
 		return 0;
 	}
 	catch (...)

@@ -152,6 +152,7 @@
     <ClInclude Include="Inheriting.h" />
     <ClInclude Include="Initialization.h" />
     <ClInclude Include="IsVirtual.h" />
+    <ClInclude Include="KasperskyProblemTest.h" />
     <ClInclude Include="KeepWindowOpen.h" />
     <ClInclude Include="LambdaPointer.h" />
     <ClInclude Include="LinkExample.h" />
