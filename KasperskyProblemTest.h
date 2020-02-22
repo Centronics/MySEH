@@ -28,16 +28,9 @@ public:
 
 	void AddFiles(const vector<string>& f)
 	{
-		try
-		{
-			const lock_guard<mutex> lock(m_mutex);
-			for (auto it = f.cbegin(); it != f.cend(); ++it)
-				m_files.push_back(*it);
-		}
-		catch (...)
-		{
-			throw;
-		}
+		const lock_guard<mutex> lock(m_mutex);
+		for (auto it = f.cbegin(); it != f.cend(); ++it)
+			m_files.push_back(*it);
 	}
 
 	vector<string> GetGarbageFiles()
@@ -69,19 +62,19 @@ private:
 
 		for (vector<string>::size_type i = 0; i < v.size(); ++i)
 		{
-			if ((flags & Temp) && v[i].size() >= 4 && strcmp(v[i].c_str() + v[i].size() - 4, ".tmp") == 0)
+			if ((flags & Temp) == Temp && v[i].size() >= 4 && strcmp(v[i].c_str() + (v[i].size() - 4), ".tmp") == 0) // ѕроверку конца строки лучше вынести в отдельный метод, строки лучше убрать в ресурсы.
 			{
 				v.erase(v.begin() + i);
 				if (i > 0)
 					--i; // надо уменьшить на один шаг при удалении
 			}
-			if ((flags & Backup) && v[i].size() >= 4 && strcmp(v[i].c_str() + v[i].size() - 4, ".bak") == 0)
+			if ((flags & Backup) == Backup && v[i].size() >= 4 && strcmp(v[i].c_str() + (v[i].size() - 4), ".bak") == 0)
 			{
 				v.erase(v.begin() + i);
 				if (i > 0)
 					--i; // надо уменьшить на один шаг при удалении
 			}
-			if ((flags & Regular) && v[i].size() >= 4 && strcmp(v[i].c_str() + v[i].size() - 4, ".bak") != 0 && strcmp(v[i].c_str() + v[i].size() - 4, ".tmp") != 0)
+			if ((flags & Regular) == Regular && v[i].size() >= 4 && (strcmp(v[i].c_str() + (v[i].size() - 4), ".bak") == 0 || strcmp(v[i].c_str() + (v[i].size() - 4), ".tmp") == 0))
 			{
 				v.erase(v.begin() + i);
 				if (i > 0)
