@@ -65,20 +65,19 @@ private:
 			if ((flags & Temp) == Temp && v[i].size() >= 4 && strcmp(v[i].c_str() + (v[i].size() - 4), ".tmp") == 0) // Проверку конца строки лучше вынести в отдельный метод, строки лучше убрать в ресурсы.
 			{
 				v.erase(v.begin() + i);
-				if (i > 0)
-					--i; // надо уменьшить на один шаг при удалении
+				--i;
+				continue;
 			}
 			if ((flags & Backup) == Backup && v[i].size() >= 4 && strcmp(v[i].c_str() + (v[i].size() - 4), ".bak") == 0)
 			{
 				v.erase(v.begin() + i);
-				if (i > 0)
-					--i; // надо уменьшить на один шаг при удалении
+				--i;
+				continue;
 			}
 			if ((flags & Regular) == Regular && v[i].size() >= 4 && (strcmp(v[i].c_str() + (v[i].size() - 4), ".bak") == 0 || strcmp(v[i].c_str() + (v[i].size() - 4), ".tmp") == 0))
 			{
 				v.erase(v.begin() + i);
-				if (i > 0)
-					--i; // надо уменьшить на один шаг при удалении
+				--i;
 			}
 		}
 

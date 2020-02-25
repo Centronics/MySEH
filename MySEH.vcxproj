@@ -153,6 +153,7 @@
     <ClInclude Include="Initialization.h" />
     <ClInclude Include="IsVirtual.h" />
     <ClInclude Include="KasperskyProblemTest.h" />
+    <ClInclude Include="KasperskyTest.h" />
     <ClInclude Include="KeepWindowOpen.h" />
     <ClInclude Include="LambdaPointer.h" />
     <ClInclude Include="LinkExample.h" />

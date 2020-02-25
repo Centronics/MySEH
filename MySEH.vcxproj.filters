@@ -281,5 +281,8 @@
     <ClInclude Include="KasperskyProblemTest.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="KasperskyTest.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
