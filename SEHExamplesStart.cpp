@@ -57,12 +57,24 @@
 #include "ListOperations.h"
 #include "STDThread.h"
 #include "KasperskyProblemTest.h"
-#include "KasperskyTest.h"*/
+#include "KasperskyTest.h"
+#include "OperatorOverload.h"*/
+#include "FINTECHTest.h"
+
+void v(int i)
+{
+	i++;
+}
 
 int __cdecl main()
 {
 	try
 	{
+		FileReader();
+		
+		v(0xFFFFFFFF);
+		const int i=-1;
+		int f=+i;
 		return 0;
 	}
 	catch (...)

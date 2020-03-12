@@ -143,6 +143,7 @@
     <ClInclude Include="ExceptionConstruction.h" />
     <ClInclude Include="Explicit.h" />
     <ClInclude Include="Expression.h" />
+    <ClInclude Include="FINTECHTest.h" />
     <ClInclude Include="ForEach.h" />
     <ClInclude Include="FormatString.h" />
     <ClInclude Include="FromStandard.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="map.h" />
     <ClInclude Include="MoveConstructor.h" />
     <ClInclude Include="Narrow.h" />
+    <ClInclude Include="OperatorOverload.h" />
     <ClInclude Include="PlacementNew.h" />
     <ClInclude Include="NoexceptExample.h" />
     <ClInclude Include="OperatorInheriting.h" />
