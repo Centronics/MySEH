@@ -16,6 +16,8 @@ inline void FileReader()
 	{
 		string str;
 		file >> str;
+		if (str.empty())
+			continue;
 		++mp[str];
 	}
 	file.close();
