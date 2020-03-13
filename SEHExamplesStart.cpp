@@ -61,20 +61,11 @@
 #include "OperatorOverload.h"*/
 #include "FINTECHTest.h"
 
-void v(int i)
-{
-	i++;
-}
-
 int __cdecl main()
 {
 	try
 	{
-		FileReader();
-		
-		v(0xFFFFFFFF);
-		const int i=-1;
-		int f=+i;
+		Multithreading();
 		return 0;
 	}
 	catch (...)
@@ -82,3 +73,17 @@ int __cdecl main()
 		return 1;
 	}
 }
+
+/*Singleton* Singleton::Get()
+ * {
+ *		if(instance.load() == nullptr)
+ *		{
+ *			std::lock_gard<std::mutex> guard(lock);
+ *			if(instance.load() == nullptr)
+ *			{
+ *				instance.store( Singleton());
+ *			}
+ *		}
+ *		return instance.load();
+ * }
+ */
