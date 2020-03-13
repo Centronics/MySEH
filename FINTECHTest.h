@@ -112,7 +112,7 @@ inline void Multithreading()
 	volatile bool finish = false;
 	thrs.reserve(20);
 	for (int k = 0; k < 20; ++k)
-		thrs.emplace_back(thread([&logWriter, &finish]
+		thrs.emplace_back([&logWriter, &finish]() -> void
 	{
 		const unsigned myNumber = number++;
 		srand(static_cast<unsigned>(time(NULL)));
@@ -122,7 +122,7 @@ inline void Multithreading()
 			logWriter->WriteString("Thread #" + to_string(myNumber) + ' ' + ctime(&now));
 			this_thread::sleep_for(milliseconds(500 + (rand() % 5000)));
 		}
-	}));
+	});
 	this_thread::sleep_for(seconds(30));
 	finish = true;
 	for (auto& t : thrs)
