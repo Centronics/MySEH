@@ -712,3 +712,17 @@ inline void YandexTest(const bool writeToFile)
 			out << endl << endl;
 	}
 }
+
+/*Singleton* Singleton::Get()
+ * {
+ *		if(instance.load() == nullptr)
+ *		{
+ *			std::lock_gard<std::mutex> guard(lock);
+ *			if(instance.load() == nullptr)
+ *			{
+ *				instance.store( Singleton());
+ *			}
+ *		}
+ *		return instance.load();
+ * }
+ */

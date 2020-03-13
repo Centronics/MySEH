@@ -58,14 +58,13 @@
 #include "STDThread.h"
 #include "KasperskyProblemTest.h"
 #include "KasperskyTest.h"
-#include "OperatorOverload.h"*/
-#include "FINTECHTest.h"
+#include "OperatorOverload.h"
+#include "FINTECHTest.h"*/
 
 int __cdecl main()
 {
 	try
 	{
-		Multithreading();
 		return 0;
 	}
 	catch (...)
@@ -73,17 +72,3 @@ int __cdecl main()
 		return 1;
 	}
 }
-
-/*Singleton* Singleton::Get()
- * {
- *		if(instance.load() == nullptr)
- *		{
- *			std::lock_gard<std::mutex> guard(lock);
- *			if(instance.load() == nullptr)
- *			{
- *				instance.store( Singleton());
- *			}
- *		}
- *		return instance.load();
- * }
- */

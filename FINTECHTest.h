@@ -37,50 +37,43 @@ inline void FileReader()
 }
 
 // ÇÀÄÀ×À ¹4.
-
 class LogWriter
 {
 	stack<string> _strings;
 	mutex _mutex, _thrMutex;
 	condition_variable _event;
-	bool _needStop = false, _notified = false;
+	volatile bool _needStop = false, _notified = false;
 	thread _workThread;
 
 public:
 
 	LogWriter() : _workThread([this]() mutable -> void
 	{
-		try
+		ofstream file("D:\\LOG.txt", ofstream::trunc);
+		if (!file)
+			return;
+		unique_lock<mutex> varLock(_thrMutex);
+		while (!_needStop)
 		{
-			ofstream file("D:\\LOG.txt", ofstream::trunc);
-			unique_lock<mutex> varLock(_thrMutex);
-			while (!_needStop)
+			bool isEmpty;
 			{
-				bool isEmpty;
-				{
-					const lock_guard<mutex> lock(_mutex);
-					isEmpty = _strings.empty();
-				}
-				if (!isEmpty)
-				{
-					string t;
-					{
-						const lock_guard<mutex> lock(_mutex);
-						_notified = false;
-						t = _strings.top();
-						_strings.pop();
-					}
-					file << t;
-					if (_needStop)
-						return;
-				}
+				const lock_guard<mutex> lock(_mutex);
+				isEmpty = _strings.empty();
+			}
+			if (isEmpty)
+			{
+				_notified = false;
 				while (!_notified)
 					_event.wait(varLock);
+				continue;
 			}
-		}
-		catch (...)
-		{
-
+			string t;
+			{
+				const lock_guard<mutex> lock(_mutex);
+				t = _strings.top();
+				_strings.pop();
+			}
+			file << t;
 		}
 	}) {	}
 
@@ -91,7 +84,8 @@ public:
 
 	void WriteString(const string& str)
 	{
-		const unique_lock<mutex> varLock(_thrMutex);
+		if (!_workThread.joinable())
+			return;
 		{
 			const lock_guard<mutex> lock(_mutex);
 			_strings.push(str);
@@ -103,7 +97,10 @@ public:
 	~LogWriter()
 	{
 		_needStop = true;
-		_workThread.join();
+		_notified = true;
+		_event.notify_all();
+		if (_workThread.joinable())
+			_workThread.join();
 	}
 };
 
@@ -113,6 +110,7 @@ inline void Multithreading()
 	vector<thread> thrs;
 	static atomic<unsigned> number = 0;
 	volatile bool finish = false;
+	thrs.reserve(20);
 	for (int k = 0; k < 20; ++k)
 		thrs.emplace_back(thread([&logWriter, &finish]
 	{
