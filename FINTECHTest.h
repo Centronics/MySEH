@@ -55,12 +55,7 @@ public:
 		unique_lock<mutex> varLock(_thrMutex);
 		while (!_needStop)
 		{
-			bool isEmpty;
-			{
-				const lock_guard<mutex> lock(_mutex);
-				isEmpty = _strings.empty();
-			}
-			if (isEmpty)
+			if (_strings.empty())
 			{
 				_notified = false;
 				while (!_notified)
