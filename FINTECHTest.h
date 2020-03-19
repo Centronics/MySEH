@@ -110,7 +110,7 @@ inline void Multithreading()
 		thrs.emplace_back([&logWriter, &finish]() -> void
 	{
 		const unsigned myNumber = number++;
-		srand(static_cast<unsigned>(time(NULL)));
+		srand(static_cast<unsigned>(time(nullptr)));
 		while (!finish)
 		{
 			const time_t now = time(0);

@@ -58,11 +58,11 @@
 #include "STDThread.h"
 #include "KasperskyProblemTest.h"
 #include "KasperskyTest.h"
-#include "OperatorOverload.h"
-#include "FINTECHTest.h"*/
+#include "OperatorOverload.h"*/
+
 #include <Windows.h>
 #include <memory>
-
+#include "FINTECHTest.h"
 int __cdecl main()
 {
 	try
@@ -126,6 +126,12 @@ int __cdecl main()
 		int ui = 9;
 		unsigned er = ui;
 		ui = er;
+
+		int* mas = 0;
+		mas[100u] = 1;
+
+		int arr[123] = { 10, 9 };
+		int tmp = *(&arr + 1) - arr; // 123
 		
 		return 0;
 	}
