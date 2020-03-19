@@ -113,7 +113,7 @@ inline void Multithreading()
 		srand(static_cast<unsigned>(time(nullptr)));
 		while (!finish)
 		{
-			const time_t now = time(0);
+			const time_t now = time(nullptr);
 			logWriter->WriteString("Thread #" + to_string(myNumber) + ' ' + ctime(&now));
 			this_thread::sleep_for(milliseconds(500 + (rand() % 5000)));
 		}
